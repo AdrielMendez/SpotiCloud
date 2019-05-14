@@ -1,0 +1,14 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}{% endblock %}
+
+{% block navbar %}
+<div class="navbar mr-auto">
+        <a class="nav-item nav-link" href="{{ url_for('wrdcld.home') }}">Home</a>
+        <a class="nav-item nav-link" href="{{ url_for('wrdcld.wordCloud') }}">Create A Word Cloud</a>
+        <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Login</a>
+        <a class="nav-item nav-link" href="{{ url_for('wrdcld.about') }}">About</a>
+</div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
