@@ -1,4 +1,8 @@
 import functools
+import sys
+import spotipy
+import spotipy.util as util
+
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -15,7 +19,9 @@ bp = Blueprint('auth', __name__)
 def login():
     template = "auth.html"
     name = "spotify login"
-    return render_template(template, name=name)
+    client_id = "53f83824eefa4ff2ab7f43f2e530ba90"
+    spotify_auth_link = "https://accounts.spotify.com/authorize"
+    return render_template(template, name=name, auth_link=spotify_auth_link)
 
 
 
