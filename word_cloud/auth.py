@@ -16,8 +16,9 @@ bp = Blueprint('auth', __name__)
 
 
 #  Client Keys
-CLIENT_ID = "53f83824eefa4ff2ab7f43f2e530ba90"
-CLIENT_SECRET = "a1fff141754e45358e2a925ce8772c0b"
+CLIENT = json.load(open('conf.json', 'r+'))
+CLIENT_ID = CLIENT['id']
+CLIENT_SECRET = CLIENT['secret']
 
 # Spotify URLS
 SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize"
