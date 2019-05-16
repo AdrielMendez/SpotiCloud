@@ -7,9 +7,11 @@ import requests
 import json
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
-from werkzeug.security import check_password_hash, generate_password_hash
+
+
+
 
 
 bp = Blueprint('auth', __name__)
@@ -50,20 +52,19 @@ auth_query_parameters = {
 @bp.route("/login")
 def login():
     # Auth Step 1: Authorization
-    name = "buttcheeks"
+    name = "login page"
     url_args = "&".join(["{}={}".format(key, quote(val)) for key, val in auth_query_parameters.items()])
     auth_url = "{}/?{}".format(SPOTIFY_AUTH_URL, url_args)
     return render_template('auth.html', spot_link=auth_url, name=name)
 
 
 
-# @bp.route('/login')
-# def login():
-#     template = "auth.html"
-#     name = "spotify login"
-#     client_id = "53f83824eefa4ff2ab7f43f2e530ba90"
-#     spotify_auth_link = "https://accounts.spotify.com/authorize"
-#     return render_template(template, name=name, auth_link=spotify_auth_link)
+@bp.route('/logout')
+def logout():
+    name = "spotify logout"
+    session.clear()
+    template = redirect(url_for('wrdcld.home'))
+    return render_template(template, name=name)
 
 
 @bp.route("/callback/q")
@@ -105,8 +106,6 @@ def callback():
 
     session['access_token'] = access_token
     session['refresh_token'] = refresh_token
-    g.user = CLIENT_ID
-    name = "Authorized"
 
     return render_template('wrdcld.html', sorted_array=display_arr, name=name)
 
@@ -117,8 +116,7 @@ def login_required(view):
     def wrapped_view(**kwargs):
         if session['access_token'] is None:
             return redirect(url_for('auth.login'))
-
         return view(**kwargs)
-
     return wrapped_view
+
 

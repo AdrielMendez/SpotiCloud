@@ -2,6 +2,7 @@ import os
 import spotipy
 from flask import Flask
 from flask_bootstrap import Bootstrap
+import flask_login
 
 
 def create_app(test_config=None):
@@ -28,6 +29,10 @@ def create_app(test_config=None):
 
     from . import wrdcld
     app.register_blueprint(wrdcld.bp)
+
+    login_manager = flask_login.LoginManager()
+
+    login_manager.init_app(app)
 
 
     return app
