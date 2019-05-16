@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %} {{name}} {% endblock %}
+{% block navbar %}
+<div class="navbar mr-auto">
+{#        <a class="nav-item nav-link" href="{{ url_for('wrdcld.home') }}">Home</a>#}
+
+        {% if display %}
+        <a class="nav-item nav-link" href="{{ url_for('wrdcld.home') }}">Home</a>
+        {% else %}
+        <a class="nav-item nav-link" href="{{ url_for('wrdcld.wordCloud') }}">Home</a>
+        {% endif %}
+
+        <a class="nav-item nav-link" href="{{ url_for('wrdcld.about') }}">About</a>
+
+        {% if not display %}
+        <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+        {% else %}
+        <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Login</a>
+        {% endif %}
+</div>
+{% endblock %}
+{%block content%}
+<h1>{{name}}</h1>
+    <button type="submit" class="alert-primary"><a href="{{ spot_link }}">login to Spotify</a></button>
+{% endblock %}
