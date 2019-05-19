@@ -1,9 +1,15 @@
+{% if 'access_token' not in session %}
+{% extends "layout.html" %}
+{% else %}
 {% extends "authLayout.html" %}
+{% endif -%}
 {% block title %} {{name}} {% endblock %}
 {% block navbar %}
 {{super()}}
 {% endblock %}
 {%block content%}
 <h1>{{name}}</h1>
-    <button type="submit" class="alert-primary"><a href="{{url_for('auth.logout')}}">logout of Spotify</a></button>
+    <h2>this is just test data</h2>
+    <h3>{{ g.token }}</h3>
+{{ playlist }}
 {% endblock %}

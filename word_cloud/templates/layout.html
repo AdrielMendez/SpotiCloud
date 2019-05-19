@@ -1,14 +1,13 @@
 {% extends "bootstrap/base.html" %}
-{% block title %}{% endblock %}
-
+{% block title %} {{name}} {% endblock %}
 {% block navbar %}
-<div class="navbar mr-auto">
-        <a class="nav-item nav-link" href="{{ url_for('wrdcld.home') }}">Home</a>
-{#        <a class="nav-item nav-link" href="{{ url_for('wrdcld.wordCloud') }}">Create A Word Cloud</a>#}
-        <a class="nav-item nav-link" href="{{ url_for('wrdcld.about') }}">About</a>
+<nav class="navbar flex-column">
+        <a class="nav-item nav-link" href="{{ url_for('wordcloud.home') }}">Home</a>
+        <a class="nav-item nav-link" href="{{ url_for('wordcloud.about') }}">About</a>
         <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Login</a>
-</div>
+</nav>
 {% endblock %}
-
-{% block content %}
+{%block content%}
+<h1>{{name}}</h1>
+    <button type="submit" class="alert-primary"><a href="{{ spot_link }}">login to Spotify</a></button>
 {% endblock %}

@@ -1,7 +1,3 @@
-import functools
-import sys
-import spotipy
-import spotipy.util as util
 from urllib.parse import quote
 import requests
 import json
@@ -56,16 +52,11 @@ def login():
     url_args = "&".join(["{}={}".format(key, quote(val)) for key, val in auth_query_parameters.items()])
     auth_url = "{}/?{}".format(SPOTIFY_AUTH_URL, url_args)
     return redirect(auth_url)
-    # display = True
-    # if not loggedIn():
-    #     display = False
-    # return render_template(template, spot_link=auth_url, name=name, display=display)
-
 
 
 @bp.route('/logout')
 def logout():
-    from .wrdcld import home
+    from .wordcloud import home
 
     session.clear()
     return home()
@@ -73,7 +64,7 @@ def logout():
 
 @bp.route("/callback/q")
 def callback():
-    from .wrdcld import wordCloud
+    from .wordcloud import wordCloud
     # Auth Step 4: Requests refresh and access tokens
     auth_token = request.args['code']
     code_payload = {
@@ -96,40 +87,12 @@ def callback():
     # Auth Step 6: Use the access token to access Spotify API
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
 
-    # # Get profile data
-    # user_profile_api_endpoint = "{}/me".format(SPOTIFY_API_URL)
-    # profile_response = requests.get(user_profile_api_endpoint, headers=authorization_header)
-    # profile_data = json.loads(profile_response.text)
-    #
-    # # Get user playlist data
-    # playlist_api_endpoint = "{}/playlists".format(profile_data["href"])
-    # playlists_response = requests.get(playlist_api_endpoint, headers=authorization_header)
-    # playlist_data = json.loads(playlists_response.text)
-    #
-    # # Combine profile and playlist data to display
-    # display_arr = [profile_data] + playlist_data["items"]
-
+    g.token = access_token
     session['auth_header'] = auth_header
     session['access_token'] = access_token
     session['refresh_token'] = refresh_token
 
     return wordCloud()
-
-
-# def login_required(view):
-#     @functools.wraps(view)
-#     def wrapped_view(**kwargs):
-#         if session['access_token'] is None:
-#             return redirect(url_for('auth.login'))
-#         return view(**kwargs)
-#     return wrapped_view
-
-
-# def loggedIn() -> bool:
-#     granted = False
-#     if 'access_token' in session:
-#         granted = True
-#     return granted
 
 
 # not meant to be deployed, just didnt want to get rid of the logic just yet
