@@ -4,13 +4,13 @@
 {% extends "authLayout.html" %}
 {% endif -%}
 {% block title %} {{name}} {% endblock %}
-{% block navbar %}
-{{super()}}
-{% endblock %}
 {%block content%}
-<h1>{{name}}</h1>
-    <h2>{{ state }}</h2>
-    <h3>{{ g.token }}</h3>
-    <h2>this is just test data</h2>
-    {{ playlist }}
+
+    {% block header %}
+        <h1>{{name}}</h1>
+        <h2>{{ state }}</h2>
+        <h2>this is just test data</h2>
+        {{ playlist }}
+    {% endblock header %}
+
 {% endblock %}

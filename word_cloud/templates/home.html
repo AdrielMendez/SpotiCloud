@@ -4,12 +4,11 @@
 {% extends "authLayout.html" %}
 {% endif -%}
 {% block title %} {{name}} {% endblock %}
-{% block navbar %}
-{{super()}}
-{% endblock %}
 {%block content%}
-<h1>{{name}}</h1>
-    <h2>this is just test data</h2>
-    <h3>{{ g.token }}</h3>
-{{ playlist }}
+
+    {% block header %}
+            <h1>{{name}}</h1>
+            <button type="submit" class="alert-primary"><a  href="{{ url_for('auth.login') }}">Login to Spotify</a></button>
+    {% endblock header %}
+
 {% endblock %}

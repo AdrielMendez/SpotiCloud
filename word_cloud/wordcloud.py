@@ -16,7 +16,7 @@ def home():
 @bp.route('/wordCloud')
 def wordCloud():
     """connection to WordCloud class is done here"""
-    template = "home.html"
+    template = "wordCloud.html"
     page_name = "WordCloud Creation"
     playlist = getplaylist()
     if 'access_token' not in session:

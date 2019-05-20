@@ -1,13 +1,17 @@
-{% extends "layout.html" %}
-{% block title %} {{name}} {% endblock %}
-{% block navbar %}
-<nav class="navbar flex-column">
-        <a class="nav-item nav-link" href="{{ url_for('wordcloud.home') }}">Home</a>
-        <a class="nav-item nav-link" href="{{ url_for('wordcloud.about') }}">About</a>
-        <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Login</a>
-</nav>
-{% endblock %}
-{%block content%}
-<h1>{{name}}</h1>
-    <button type="submit" class="alert-primary"><a href="{{ spot_link }}">login to Spotify</a></button>
-{% endblock %}
+{% extends "bootstrap/base.html" %}
+{% block meta %}<meta name="viewport" content="width=device-width, initial-scale=1"> {% endblock meta %}
+
+{% block body %}
+<div class="container">
+
+    {% block navbar %}
+            <nav class="navbar justify-content-end">
+                <a class="nav-item nav-link" href="{{ url_for('wordcloud.wordCloud') }}">Home</a>
+                <a class="nav-item nav-link" href="{{ url_for('wordcloud.about') }}">About</a>
+                <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+            </nav>
+    {%- endblock navbar %}
+    {% block header %}{%  endblock header %}
+
+</div>
+{% endblock body %}
