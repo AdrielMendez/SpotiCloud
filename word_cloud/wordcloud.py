@@ -16,12 +16,11 @@ def home():
 @bp.route('/wordCloud')
 def wordCloud():
     """connection to WordCloud class is done here"""
-    template = "wordCloud.html"
+    template = "home.html"
     page_name = "WordCloud Creation"
-    playlist = getplaylist()
     if 'access_token' not in session:
         return redirect('auth.login')
-    return render_template(template, name=page_name, playlist=playlist)
+    return render_template(template, name=page_name)
 
 
 @bp.route('/about/')

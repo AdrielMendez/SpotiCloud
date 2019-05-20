@@ -1,14 +1,19 @@
-{% if 'access_token' not in session %}
 {% extends "layout.html" %}
-{% else %}
-{% extends "authLayout.html" %}
-{% endif -%}
 {% block title %} {{name}} {% endblock %}
 {%block content%}
-
     {% block header %}
-            <h1>{{name}}</h1>
-            <button type="submit" class="alert-primary"><a  href="{{ url_for('auth.login') }}">Login to Spotify</a></button>
+            <h1 class="h1">{{name}}</h1>
     {% endblock header %}
+    {%- block main -%}
+        {% if 'access_token' not in session %}
+            <div>
+                <h2 class="h2">login to see your personal word cloud</h2>
+                <button type="submit" class="bnt btn-light btn-primary"><a href="{{ url_for('auth.login') }}">Login to Spotify</a></button>
+            </div>
+        {% else %}
+            <h2 class="h2">this is just test data:</h2>
+            {{ session['user_data'] }}
+        {% endif %}
+    {%- endblock main -%}
 
 {% endblock %}

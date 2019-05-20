@@ -1,17 +1,31 @@
 {% extends "bootstrap/base.html" %}
-{% block meta %}<meta name="viewport" content="width=device-width, initial-scale=1"> {% endblock meta %}
-
+{#{% block styles %}#}
+{#    {{ super() }}#}
+{#    <link href="styles.scss" rel="stylesheet">#}
+{#{% endblock %}#}
 {% block body %}
 <div class="container">
-
+    <div class="row">
+    {% block header %}{%  endblock header %}
     {% block navbar %}
-            <nav class="navbar justify-content-end">
+        {% if 'access_token' not in session %}
+            <nav class="navbar ml-auto  flex-column">
                 <a class="nav-item nav-link" href="{{ url_for('wordcloud.home') }}">Home</a>
                 <a class="nav-item nav-link" href="{{ url_for('wordcloud.about') }}">About</a>
                 <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Login</a>
             </nav>
+        {% else %}
+            <nav class="navbar ml-auto flex-column">
+                <a class="nav-item nav-link justify-content-start" href="{{ url_for('wordcloud.wordCloud') }}">Home</a>
+                <a class="nav-item nav-link justify-content-start" href="{{ url_for('wordcloud.about') }}">About</a>
+                <a class="nav-item nav-link justify-content-start" href="{{ url_for('auth.logout') }}">Logout</a>
+                <a class="nav-item nav-link justify-content-start" href="#">{{ session['username'] }}</a>
+            </nav>
+        {% endif %}
     {%- endblock navbar %}
-    {% block header %}{%  endblock header %}
+    </div> {# end banner row div #}
 
-</div>
+    {% block main %}{% endblock main %}
+
+</div>{# end of conainer div #}
 {% endblock body %}

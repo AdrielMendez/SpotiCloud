@@ -47,7 +47,7 @@ auth_query_parameters = {
 @bp.route("/login")
 def login():
     # Auth Step 1: Authorization
-    template = 'authLayout.html'
+    template = 'layout.html'
     name = "login page"
     url_args = "&".join(["{}={}".format(key, quote(val)) for key, val in auth_query_parameters.items()])
     auth_url = "{}/?{}".format(SPOTIFY_AUTH_URL, url_args)
@@ -84,13 +84,21 @@ def callback():
     token_type = response_data["token_type"]
     expires_in = response_data["expires_in"]
 
+
     # Auth Step 6: Use the access token to access Spotify API
     auth_header = {"Authorization": "Bearer {}".format(access_token)}
+
+    user_endpoint = "{}/me".format(SPOTIFY_API_URL)
+    profile_response = requests.get(user_endpoint, headers=auth_header)
+    profile_data = json.loads(profile_response.text)
 
     g.token = access_token
     session['auth_header'] = auth_header
     session['access_token'] = access_token
     session['refresh_token'] = refresh_token
+    session['user_data'] = profile_data
+    user_data = session['user_data']
+    session['username'] = user_data['display_name']
 
     return wordCloud()
 
