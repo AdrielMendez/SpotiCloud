@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block title %} {{name}} {% endblock %}
+{% block link %}
+    <link rel="stylesheet" media="screen" href="static/bootstrap.min.css">
+    <link rel="stylesheet" href="static/bootstrap-theme.min.css">
+{% endblock %}
+
+{% block meta %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
+{%block content%}
+    {% block header %}
+    <h1 class="h1">{{name}}</h1>
+    {% endblock %}
+    {%- block main -%}
+        <form action="" method="post" role="form">
+
+        <label for="theme">Theme</label>
+        <p>
+            <input type="radio" name="theme" id="incolor"> Jamie XX - In Colour <br>
+            <input type="radio" name="theme" id="kay"> Kaytranada - 99.9%<br>
+            <input type="radio" name="theme" id="ds2"> Future - DS2<br>
+            <input type="radio" name="theme" id="kod"> J Cole - KOD<br>
+        </p>
+        <label for="background">Background Color</label>
+        <p>
+            <input type="radio" name="background" id="black"> Black <br>
+            <input type="radio" name="background" id="white"> White <br>
+            <input type="radio" name="background" id="random"> Random<br>
+        </p>
+        <label for="cloudtype">Type of Cloud</label>
+        <p>
+            <input type="radio" name="type" id="lyric"> Lyric Cloud <br>
+            <input type="radio" name="type" id="artist"> Artist cloud <br>
+        </p>
+        <label for="viewport">Dimension</label>
+        <p>
+            <input type="radio" name="viewport" id="desktop"> Desktop (1920 x 1080) <br>
+            <input type="radio" name="viewport" id="mobile"> Mobile (720 x 1280) <br>
+            <input type="radio" name="viewport" id="custom"> Custom<br>
+        </p>
+
+        <button type="submit" class="btn btn-success">Generate</button>
+
+        </form>
+        <!-- {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %} -->
+
+        <!-- {% for message in messages %}
+        {% if "Error" not in message[1]: %}
+        <div class="alert alert-info">
+                        <strong>Success! </strong> { { message[1] }}</div>
+        {% endif %} -->
+
+        <!-- {% if "Error" in message[1]: %}
+        <div class="alert alert-warning">
+                        { { message[1] }}</div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %} -->
+    {%- endblock -%}
+
+{% endblock %}

@@ -7,11 +7,20 @@
     {%- block main -%}
         {% if 'access_token' not in session %}
             <div>
+                <h2 class="h2"> Welcome to Spoticloud.</h2>
+                <p> This is where info on spoticloud goes.This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes.</p>
                 <h2 class="h2">login to see your personal word cloud</h2>
                 <button type="submit" class="bnt btn-light btn-primary"><a href="{{ url_for('auth.login') }}">Login to Spotify</a></button>
             </div>
         {% else %}
-            <h2 class="h2">this is just test data:</h2>
+            <h2 class="h2"> Hello, 
+            <img src="{{session['user_data']['images'][0]['url']}}"></img>
+            {{session['user_data']['display_name']}}! </h2>
+            <h2 class="h2"> Welcome to Spoticloud.</h2>
+            <p> This is where info on spoticloud goes.This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes.</p>
+            <a href="{{ url_for('wordcloud.about') }}"> Want to learn more? </a><br>
+            <a href="{{url_for('wordcloud.about')}}" class="btn btn-primary" role="button"> Generate Spoticloud </a>
+            <a href="{{url_for('wordcloud.about')}}" class="btn btn-info" role="button"> Generate Custom Spoticloud </a>
             {{ session['user_data'] }}
         {% endif %}
     {%- endblock main -%}
