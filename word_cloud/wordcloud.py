@@ -117,3 +117,4 @@ def createWordCloud(data=None):
                 artist_file.write(' '.join(temp_list))
             sc.createWordCloud("Artists.txt")
     session.pop('form_data')
+
