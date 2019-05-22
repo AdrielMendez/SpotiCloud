@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, url_for, session, flash
+from flask import Blueprint, redirect, render_template, request, url_for, session, flash, jsonify
 from .auth import getplaylist
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 
@@ -6,29 +6,17 @@ from wtforms import Form, TextField, TextAreaField, validators, StringField, Sub
 bp = Blueprint('wordcloud', __name__)
 
 
-class ReusableForm(Form):
-    name = TextField('Name:', validators=[validators.required()])
-    email = TextField('Email:', validators=[validators.required(), validators.Length(min=6, max=35)])
-    password = TextField('Password:', validators=[validators.required(), validators.Length(min=3, max=35)])
-    
-    @bp.route("/form", methods=['GET', 'POST'])
-    def hello():
-        form = ReusableForm(request.form)
-        header = "SpotiCloud Form"
-        print(form.errors)
-        if request.method == 'POST':
-            name=request.form['name']
-            password=request.form['password']
-            email=request.form['email']
-            print(name, " ", email, " ", password)
-    
-        if form.validate():
-        # Save the comment here.
-            flash('Thanks for registration ' + name)
-        else:
-            flash('Error: All the form fields are required. ')
-    
-        return render_template('form.html', form=form, name=header)
+@bp.route("/form", methods=['GET', 'POST'])
+def form():
+    header = "SpotiCloud Form"
+    if request.method == 'POST':
+        data = {}
+        data['theme'] = request.form.get('theme') 
+        data['background'] = request.form.get('background')
+        data['cloud_type'] = request.form.get('type')
+        data['viewport'] = request.form.get('viewport')
+        return jsonify(data)
+    return render_template('form.html', form=form, name=header)
 
 
 @bp.route('/')

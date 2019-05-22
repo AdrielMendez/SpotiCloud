@@ -14,31 +14,31 @@
     <h1 class="h1">{{name}}</h1>
     {% endblock %}
     {%- block main -%}
-        <form action="" method="post" role="form">
+        <form action="{{url_for('wordcloud.form')}}" method="post" role="form">
 
         <label for="theme">Theme</label>
         <p>
-            <input type="radio" name="theme" id="incolor"> Jamie XX - In Colour <br>
-            <input type="radio" name="theme" id="kay"> Kaytranada - 99.9%<br>
-            <input type="radio" name="theme" id="ds2"> Future - DS2<br>
-            <input type="radio" name="theme" id="kod"> J Cole - KOD<br>
+            <input type="radio" name="theme" id="incolour" value="incolour" required> Jamie XX - In Colour <br>
+            <input type="radio" name="theme" id="kay" value="kay"> Kaytranada - 99.9%<br>
+            <input type="radio" name="theme" id="ds2" value="ds2"> Future - DS2<br>
+            <input type="radio" name="theme" id="kod" value="kod"> J Cole - KOD<br>
         </p>
         <label for="background">Background Color</label>
         <p>
-            <input type="radio" name="background" id="black"> Black <br>
-            <input type="radio" name="background" id="white"> White <br>
-            <input type="radio" name="background" id="random"> Random<br>
+            <input type="radio" name="background" id="black" value="black" required> Black <br>
+            <input type="radio" name="background" id="white" value="white"> White <br>
+            <input type="radio" name="background" id="random" value="random"> Random<br>
         </p>
         <label for="cloudtype">Type of Cloud</label>
         <p>
-            <input type="radio" name="type" id="lyric"> Lyric Cloud <br>
-            <input type="radio" name="type" id="artist"> Artist cloud <br>
+            <input type="radio" name="type" id="lyric" value="lyric"required> Lyric Cloud <br>
+            <input type="radio" name="type" id="artist" value="artist"> Artist cloud <br>
         </p>
         <label for="viewport">Dimension</label>
         <p>
-            <input type="radio" name="viewport" id="desktop"> Desktop (1920 x 1080) <br>
-            <input type="radio" name="viewport" id="mobile"> Mobile (720 x 1280) <br>
-            <input type="radio" name="viewport" id="custom"> Custom<br>
+            <input type="radio" name="viewport" id="desktop" value="desktop" required> Desktop (1920 x 1080) <br>
+            <input type="radio" name="viewport" id="mobile" value="mobile"> Mobile (720 x 1280) <br>
+            <input type="radio" name="viewport" id="custom" value="custom"> Custom<br>
         </p>
 
         <button type="submit" class="btn btn-success">Generate</button>
