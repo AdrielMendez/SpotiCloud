@@ -41,5 +41,4 @@ def wordCloud():
 def about():
     template = "about.html"
     page_name = "About"
-    playlist = getplaylist()
-    return render_template(template, name=page_name, playlist=playlist)
+    return render_template(template, name=page_name)
