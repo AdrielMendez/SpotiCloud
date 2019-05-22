@@ -3,3 +3,6 @@ Flask==1.0.2
 Flask-Bootstrap4==4.0.2
 spotipy
 wtforms
+wordcloud
+bs4
+matplotlib
