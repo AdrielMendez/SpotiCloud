@@ -16,10 +16,9 @@
             </nav>
         {% else %}
             <nav class="navbar ml-auto flex-column">
-                <a class="nav-item nav-link justify-content-start" href="{{ url_for('wordcloud.wordCloud') }}">Home</a>
+                <a class="nav-item nav-link justify-content-start" href="{{ url_for('wordcloud.home') }}">Home</a>
                 <a class="nav-item nav-link justify-content-start" href="{{ url_for('wordcloud.about') }}">About</a>
                 <a class="nav-item nav-link justify-content-start" href="{{ url_for('auth.logout') }}">Logout</a>
-                <a class="nav-item nav-link justify-content-start" href="#">{{ session['username'] }}</a>
             </nav>
         {% endif %}
     {%- endblock navbar %}

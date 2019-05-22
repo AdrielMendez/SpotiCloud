@@ -40,7 +40,18 @@
             <input type="radio" name="viewport" id="mobile" value="mobile"> Mobile (720 x 1280) <br>
             <input type="radio" name="viewport" id="custom" value="custom"> Custom<br>
         </p>
-
+        <label for="number_songs">Number of Songs</label>
+        <p>
+            <input type="radio" name="number_songs" id="10" value="10" required> 10 <br>
+            <input type="radio" name="number_songs" id="25" value="25"> 25 <br>
+            <input type="radio" name="number_songs" id="50" value="50"> 50<br>
+        </p>
+        <label for="time_range">Time Range</label>
+        <p>
+            <input type="radio" name="time_range" id="short_term" value="short_term" required> 1 Month <br>
+            <input type="radio" name="time_range" id="medium_term" value="medium_term"> 6 Months <br>
+            <input type="radio" name="time_range" id="long_term" value="long_term"> All Time<br>
+        </p>
         <button type="submit" class="btn btn-success">Generate</button>
 
         </form>

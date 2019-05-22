@@ -19,8 +19,9 @@
             <h2 class="h2"> Welcome to Spoticloud.</h2>
             <p> This is where info on spoticloud goes.This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes.</p>
             <a href="{{ url_for('wordcloud.about') }}"> Want to learn more? </a><br>
-            <a href="{{url_for('wordcloud.about')}}" class="btn btn-primary" role="button"> Generate Spoticloud </a>
-            <a href="{{url_for('wordcloud.about')}}" class="btn btn-info" role="button"> Generate Custom Spoticloud </a>
+            <a href="{{url_for('wordcloud.wordCloud')}}" class="btn btn-primary" role="button"> Generate Spoticloud </a>
+            <a href="{{url_for('wordcloud.form')}}" class="btn btn-info" role="button"> Generate Custom Spoticloud </a>
+            <br><br>
             {{ session['user_data'] }}
         {% endif %}
     {%- endblock main -%}

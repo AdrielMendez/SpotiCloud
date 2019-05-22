@@ -8,7 +8,6 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from wordcloud import WordCloud, ImageColorGenerator
-import numpy as np
 import PIL
 from PIL import Image
 from os import path
@@ -18,7 +17,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import argparse
-
+import numpy as np
 FILE = os.path.dirname(__file__)
 STOPWORDS = set(map(str.strip, open(os.path.join(FILE, 'stopwords')).readlines()))
 MAX_FONT_SIZE_DESKTOP = 400
@@ -29,8 +28,8 @@ MAX_WORDS_MOBILE = 350
 class SpotifyCloud():
     
     def __init__(self, number_songs=50, time_range='long_term', offset=0,
-        lyric=True, height=1080, width=1920, max_words=250,
-        max_font_size=350, theme='random', viewport='desktop', min_font_size=4,
+        lyric=True, height=2960, width=1440, max_words=250,
+        max_font_size=350, theme='kay', viewport='custom', min_font_size=4,
         background_color='black'):
 
         self.number_songs = number_songs
@@ -117,7 +116,9 @@ class SpotifyCloud():
             plt.imshow(default_colors, interpolation="bilinear")
             wc.to_file("cloud.png")
         else:
-            path_to_theme = 'themes/' + self.theme + '-' + self.viewport + '.png'
+            #path_to_theme = 'themes/' + self.theme + '-' + self.viewport + '.png'
+            #path_to_theme = os.getcwd() + '/word_cloud/src/themes/' + self.theme + '-' + self.viewport + '.png'
+            path_to_theme = self.resizeImage()
             theme_mask = np.array(Image.open(path.join(d, path_to_theme)))
             image_colors = ImageColorGenerator(theme_mask)
             plt.imshow(wc.recolor(color_func=image_colors), interpolation="bilinear")

@@ -9,15 +9,22 @@ bp = Blueprint('wordcloud', __name__)
 
 @bp.route("/form", methods=['GET', 'POST'])
 def form():
-    header = "SpotiCloud Form"
-    if request.method == 'POST':
-        data = {}
-        data['theme'] = request.form.get('theme') 
-        data['background'] = request.form.get('background')
-        data['cloud_type'] = request.form.get('type')
-        data['viewport'] = request.form.get('viewport')
-        return jsonify(data)
-    return render_template('form.html', form=form, name=header)
+    if 'access_token' not in session:
+        return redirect(url_for('wordcloud.home'))
+    else:
+        header = "SpotiCloud Form"
+        if request.method == 'POST':
+            data = {}
+            data['theme'] = request.form.get('theme') 
+            data['background'] = request.form.get('background')
+            data['cloud_type'] = request.form.get('type')
+            data['viewport'] = request.form.get('viewport')
+            data['number_songs'] = request.form.get('number_songs')
+            data['time_range'] = request.form.get('time_range')
+            session['form_data'] = data
+            return redirect(url_for('wordcloud.wordCloud'))
+
+        return render_template('form.html', form=form, name=header)
 
 
 @bp.route('/')
@@ -34,8 +41,10 @@ def wordCloud():
     template = "home.html"
     page_name = "WordCloud Creation"
     if 'access_token' not in session:
-        return redirect('auth.login')
+        return redirect(url_for('wordcloud.home'))
     else:
+        # scheduler job followed by redirect.
+        redirect(url_for('wordcloud.about'))
         createWordCloud()
     return render_template(template, name=page_name)
 
@@ -46,14 +55,16 @@ def about():
     page_name = "About"
     return render_template(template, name=page_name)
 
-def createWordCloud():
-    
-    sc = SpotifyCloud(number_songs=10, time_range='long_term', offset=0,
-        lyric=True, height=1792, width=828, max_words=250,
-        max_font_size=350, theme='kay', viewport='custom', min_font_size=12, background_color='lightblue')
-    
+def createWordCloud(data=None):
     token = ''
+    sc = SpotifyCloud(number_songs=20)
 
+    if 'form_data' in session:
+        data = session['form_data']
+        cloud_type = True if data['cloud_type'] == 'lyric' else False
+        sc = SpotifyCloud(theme=data['theme'], viewport=data['viewport'], lyric=cloud_type, background_color=data['background'],
+            time_range=data['time_range'], number_songs=data['number_songs'])
+        
     if 'access_token' in session:
         token = session['access_token']
     else:
@@ -105,3 +116,4 @@ def createWordCloud():
             with open("Artists.txt", "w") as artist_file:
                 artist_file.write(' '.join(temp_list))
             sc.createWordCloud("Artists.txt")
+    session.pop('form_data')
