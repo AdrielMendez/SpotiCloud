@@ -2,32 +2,27 @@
 {% block title %} {{name}} {% endblock %}
 {%block content%}
     {% block header %}
-            <h1 class="h1">{{name}}</h1>
+            <h1 class="h1">{{ name }}</h1>
     {% endblock header %}
     {%- block main -%}
         {% if 'access_token' not in session %}
             <div>
-                <h2 class="h2"> Welcome to Spoticloud.</h2>
-                <p> This is where info on spoticloud goes.This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes.</p>
-                <h2 class="h2">login to see your personal word cloud</h2>
+                <h2 class="h2"> Welcome to SpotiCloud</h2>
+                <h4> SpotiCloud is a project made to create Word Cloud art based off of a users Spotify Data.</h4>
+                <h2 class="h2">login to see your personal Word Cloud</h2>
                 <button type="submit" class="bnt btn-light btn-primary"><a href="{{ url_for('auth.login') }}">Login to Spotify</a></button>
             </div>
         {% else %}
             <h2 class="h2"> Hello, 
-            <img src="{{session['user_data']['images'][0]['url']}}"></img>
+            <img src="{{session['user_data']['images'][0]['url']}}" style="height:50px; width:50px; border-radius:50%; object-fit:cover"></img>
             {{session['user_data']['display_name']}}! </h2>
-            <h2 class="h2"> Welcome to Spoticloud.</h2>
-            <p> This is where info on spoticloud goes.This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes. This is where info on spoticloud goes.</p>
+            <h2 class="h2"> Welcome to SpotiCloud</h2>
+            <h4> SpotiCloud is a project made to create Word Cloud art based off of a users Spotify Data.</h4>
             <a href="{{ url_for('wordcloud.about') }}"> Want to learn more? </a><br>
-<<<<<<< HEAD
             <a href="{{url_for('wordcloud.wordCloud')}}" class="btn btn-primary" role="button"> Generate Spoticloud </a>
             <a href="{{url_for('wordcloud.form')}}" class="btn btn-info" role="button"> Generate Custom Spoticloud </a>
             <br><br>
-=======
-            <a href="{{url_for('wordcloud.defaultCloud')}}" class="btn btn-primary" role="button"> Generate Spoticloud </a>
-            <a href="{{url_for('wordcloud.about')}}" class="btn btn-info" role="button"> Generate Custom Spoticloud </a>
->>>>>>> 1f089b0e303f5215c54374d468982e46d4e0309e
-            {{ session['user_data'] }}
+            <!-- {{ session['user_data'] }} -->
         {% endif %}
     {%- endblock main -%}
 
