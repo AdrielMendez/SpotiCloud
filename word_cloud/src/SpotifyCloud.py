@@ -18,6 +18,9 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import argparse
 import numpy as np
+
+
+
 FILE = os.path.dirname(__file__)
 STOPWORDS = set(map(str.strip, open(os.path.join(FILE, 'stopwords')).readlines()))
 MAX_FONT_SIZE_DESKTOP = 400
@@ -79,12 +82,17 @@ class SpotifyCloud():
         return "hsl(0, 0%%, %d%%)" % random.randint(60, 100)
 
     def resizeImage(self):
-        path_to_image = os.getcwd() + '/word_cloud/src/themes/' + self.theme + '-desktop.png'
+        path_to_image = FILE + '/themes/' + self.theme + '-desktop.png'
         img = Image.open(path_to_image)
         img = img.resize((self.width, self.height), PIL.Image.ANTIALIAS)
-        new_file = os.getcwd() + '/word_cloud/src/themes/' + self.theme + '-custom.png'
+        new_file = FILE + '/themes/' + self.theme + '-custom.png'
         img.save(new_file)
         return new_file
+    
+    # helper function for writing image to cloud.png to  ./result/
+    def save_wordCloud(self, wc):
+        dir = os.getcwd()
+        wc.to_file( dir + "/result/cloud.png")
         
 
     def createWordCloud(self, textFile):
@@ -103,18 +111,18 @@ class SpotifyCloud():
                 theme_mask = np.array(Image.open(path.join(d, path_to_theme)))
                 image_colors = ImageColorGenerator(theme_mask)
                 plt.imshow(wc.recolor(color_func=image_colors), interpolation="bilinear")
-                wc.to_file("cloud.png")
+                self.save_wordCloud(wc)
                 os.remove(path_to_theme)
             else:
                 default_colors = wc.to_array()
                 plt.title("Default colors")
                 plt.imshow(default_colors, interpolation="bilinear")
-                wc.to_file("cloud.png")
+                self.save_wordCloud(wc)
         elif self.theme == 'random':
             default_colors = wc.to_array()
             plt.title("Default colors")
             plt.imshow(default_colors, interpolation="bilinear")
-            wc.to_file("cloud.png")
+            self.save_wordCloud(wc)
         else:
             #path_to_theme = 'themes/' + self.theme + '-' + self.viewport + '.png'
             #path_to_theme = os.getcwd() + '/word_cloud/src/themes/' + self.theme + '-' + self.viewport + '.png'
@@ -122,7 +130,7 @@ class SpotifyCloud():
             theme_mask = np.array(Image.open(path.join(d, path_to_theme)))
             image_colors = ImageColorGenerator(theme_mask)
             plt.imshow(wc.recolor(color_func=image_colors), interpolation="bilinear")
-            wc.to_file("cloud.png")
+            self.save_wordCloud(wc)
   
 
     def cleanLyrics(self, lyrics):

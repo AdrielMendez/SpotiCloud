@@ -21,7 +21,7 @@ def form():
             data['viewport'] = request.form.get('viewport')
             data['number_songs'] = request.form.get('number_songs')
             data['time_range'] = request.form.get('time_range')
-            session['form_data'] = data
+            session['form_data'] = dict(data)
             return redirect(url_for('wordcloud.wordCloud'))
 
         return render_template('form.html', form=form, name=header)
@@ -54,12 +54,13 @@ def about():
     template = "about.html"
     page_name = "About"
     return render_template(template, name=page_name)
+    
 
 def createWordCloud(data=None):
     token = ''
     sc = SpotifyCloud(number_songs=20)
 
-    if 'form_data' in session:
+    if 'form_data' in session and 'access_token' in session:
         data = session['form_data']
         cloud_type = True if data['cloud_type'] == 'lyric' else False
         sc = SpotifyCloud(theme=data['theme'], viewport=data['viewport'], lyric=cloud_type, background_color=data['background'],
@@ -116,5 +117,7 @@ def createWordCloud(data=None):
             with open("Artists.txt", "w") as artist_file:
                 artist_file.write(' '.join(temp_list))
             sc.createWordCloud("Artists.txt")
-    session.pop('form_data')
+    
+    if 'form_data' in session:
+        session.pop('form_data')
 

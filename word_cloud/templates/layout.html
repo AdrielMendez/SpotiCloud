@@ -1,24 +1,25 @@
 {% extends "bootstrap/base.html" %}
-{#{% block styles %}#}
-{#    {{ super() }}#}
-{#    <link href="styles.scss" rel="stylesheet">#}
-{#{% endblock %}#}
+{%- block styles %}
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:700&display=swap" rel="stylesheet"> 
+    <link href="{{url_for('static', filename='css/styles.css')}}" rel="stylesheet">
+    <link href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}" rel="stylesheet">
+{%- endblock styles %}    
 {% block body %}
 <div class="container">
-    <div class="row">
-    {% block header %}{%  endblock header %}
+    <div class="row pb-4">
+    <div class="pt-5">{% block header %}{%  endblock header %}</div>
     {% block navbar %}
         {% if 'access_token' not in session %}
-            <nav class="navbar ml-auto  flex-column">
-                <a class="nav-item nav-link" href="{{ url_for('wordcloud.home') }}">Home</a>
-                <a class="nav-item nav-link" href="{{ url_for('wordcloud.about') }}">About</a>
-                <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Login</a>
+            <nav class="navbar ml-auto  flex-column pt-5">
+                <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.home') }}">Home</a>
+                <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.about') }}">About</a>
+                <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('auth.login') }}">Login</a>
             </nav>
         {% else %}
-            <nav class="navbar ml-auto flex-column">
-                <a class="nav-item nav-link justify-content-start" href="{{ url_for('wordcloud.home') }}">Home</a>
-                <a class="nav-item nav-link justify-content-start" href="{{ url_for('wordcloud.about') }}">About</a>
-                <a class="nav-item nav-link justify-content-start" href="{{ url_for('auth.logout') }}">Logout</a>
+            <nav class="navbar ml-auto flex-column pt-5">
+                <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.home') }}">Home</a>
+                <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.about') }}">About</a>
+                <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('auth.logout') }}">Logout</a>
             </nav>
         {% endif %}
     {%- endblock navbar %}

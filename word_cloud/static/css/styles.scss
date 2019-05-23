@@ -1,0 +1,13 @@
+$bgcolors: (
+    1: #FC4445,
+    2: #3feee6,
+    3: #97caef
+);
+
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:700&display=swap');
+
+body {
+    background-color: map-get($map: $bgcolors, $key: 1) !important;
+    font-family: 'Noto Sans', sans-serif;
+
+}
