@@ -11,12 +11,13 @@ $bgcolors: (
 // @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat:700&display=swap');
 
+
 body {
     background-color: map-get($map: $bgcolors, $key: 5) !important;
     font-family: 'Montserrat', sans-serif !important;
     // font-weight: 700 !important;
     color:map-get($map: $bgcolors, $key: 6)!important;
-
+    
     #userImg {
         height:50px; 
         width:50px; 
@@ -38,3 +39,38 @@ body {
 
 }
 
+.spotifyButton {
+    background: #1DD760 !important;
+    border-radius: 40px !important;
+    padding: 15px 25px 15px 15px !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    color: rgb(228, 226, 226);
+    margin-left: 20px;
+    display: inline-block;
+    font-weight: 200;
+    
+    img {
+        height: 30px;
+        width: 30px;
+        margin-right: 5px;
+    }
+}
+
+#spotifyHover:hover {
+    color: white !important;
+}
+
+.spotifyButton:hover {
+    background: #3ae475 !important;
+    transition-property: all;
+    transform: scale(1.06);
+    transition: all 33ms cubic-bezier(.3,0,0,1);
+}
+
+.spotifyButton:active{
+    background: darken(#1DD760, 20%) !important;
+    transition-property: all;
+    transform: scale(.98);
+    transition: all 33ms cubic-bezier(.3,0,0,1);
+}

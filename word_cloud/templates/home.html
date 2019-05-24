@@ -10,7 +10,14 @@
                 <h2 class="h2"> Welcome to SpotiCloud</h2>
                 <h4> SpotiCloud is a project made to create Word Cloud art based off of a users Spotify Data.</h4>
                 <h2 class="h2">login to see your personal Word Cloud</h2>
-                <button type="submit" class="bnt btn-light btn-primary"><a href="{{ url_for('auth.login') }}">Login to Spotify</a></button>
+                <!-- <button type="button" class="spotifyButton">
+                    <img id="spotifyIcon" src="{{ url_for('static',filename='images/spotifyIcon.png')}}">
+                    <a href="{{ url_for('auth.login') }}">Login to Spotify</a>
+                </button> -->
+                <br>
+                <a role="button" class="spotifyButton" id="spotifyHover" href="{{ url_for('auth.login') }}">
+                    <img id="spotifyIcon" src="{{ url_for('static',filename='images/spotifyIcon.png')}}">Login to Spotify
+                </a>
             </div>
         {% else %}
             <h2 class="h2"> Hello, 
