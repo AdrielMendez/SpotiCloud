@@ -10,7 +10,7 @@ bp = Blueprint('wordcloud', __name__)
 @bp.route("/form", methods=['GET', 'POST'])
 def form():
     if 'access_token' not in session:
-        return redirect(url_for('wordcloud.home'))
+        return redirect(url_for('auth.login'))
     else:
         header = "SpotiCloud Form"
         if request.method == 'POST':
@@ -32,6 +32,10 @@ def form():
 def home():
     template = "home.html"
     page_name = "Home"
+    if 'access_token' in session:
+        page_name = "SpotiCloud"
+        return render_template(template, name=page_name)
+
     return render_template(template, name=page_name)
 
 

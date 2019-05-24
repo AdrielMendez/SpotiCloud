@@ -3,6 +3,7 @@ import requests
 import json
 
 
+
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
@@ -36,7 +37,6 @@ SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
 auth_query_parameters = {
     "response_type": "code",
     "redirect_uri": REDIRECT_URI,
-
     "scope": 'user-top-read',
     # "state": STATE,
     # "show_dialog": SHOW_DIALOG_str,
@@ -64,7 +64,7 @@ def logout():
 
 @bp.route("/callback/q")
 def callback():
-    from .wordcloud import wordCloud
+    from .wordcloud import home
     # Auth Step 4: Requests refresh and access tokens
     auth_token = request.args['code']
     code_payload = {
@@ -76,31 +76,33 @@ def callback():
     }
 
     post_request = requests.post(SPOTIFY_TOKEN_URL, data=code_payload)
+    
+    if 'access_token' not in session:
+        # Auth Step 5: Tokens are Returned to Application
+        response_data = json.loads(post_request.text)
+        access_token = response_data["access_token"]
+        refresh_token = response_data["refresh_token"]
+        token_type = response_data["token_type"]
+        expires_in = response_data["expires_in"]
 
-    # Auth Step 5: Tokens are Returned to Application
-    response_data = json.loads(post_request.text)
-    access_token = response_data["access_token"]
-    refresh_token = response_data["refresh_token"]
-    token_type = response_data["token_type"]
-    expires_in = response_data["expires_in"]
 
+        # Auth Step 6: Use the access token to access Spotify API
+        auth_header = {"Authorization": "Bearer {}".format(access_token)}
 
-    # Auth Step 6: Use the access token to access Spotify API
-    auth_header = {"Authorization": "Bearer {}".format(access_token)}
+        user_endpoint = "{}/me".format(SPOTIFY_API_URL)
+        profile_response = requests.get(user_endpoint, headers=auth_header)
+        profile_data = json.loads(profile_response.text)
 
-    user_endpoint = "{}/me".format(SPOTIFY_API_URL)
-    profile_response = requests.get(user_endpoint, headers=auth_header)
-    profile_data = json.loads(profile_response.text)
+    
+        session['auth_header'] = auth_header
+        session['access_token'] = access_token
+        session['refresh_token'] = refresh_token
+        session['user_data'] = profile_data
+        user_data = session['user_data']
+        session['username'] = user_data['display_name']
 
-    g.token = access_token
-    session['auth_header'] = auth_header
-    session['access_token'] = access_token
-    session['refresh_token'] = refresh_token
-    session['user_data'] = profile_data
-    user_data = session['user_data']
-    session['username'] = user_data['display_name']
+    return home()
 
-    return wordCloud()
 
 
 # not meant to be deployed, just didnt want to get rid of the logic just yet
