@@ -2,11 +2,12 @@
 {% block title %} {{name}} {% endblock %}
 {%block content%}
     {% block header %}
-            <h1 class="h1">{{ name }}</h1>
+            <h1 class="h1">{{ domain }}</h1>
     {% endblock header %}
     {%- block main -%}
         {% if 'access_token' not in session %}
             <div>
+                <H1>{{name}}</H1>
                 <h2 class="h2"> Welcome to SpotiCloud</h2>
                 <h4> SpotiCloud is a project made to create Word Cloud art based off of a users Spotify Data.</h4>
                 <h2 class="h2">login to see your personal Word Cloud</h2>
@@ -24,10 +25,18 @@
             <img src="{{session['user_data']['images'][0]['url']}}" id="userImg"></img>
             {{session['user_data']['display_name']}}! </h2>
             <h2 class="h2"> Welcome to SpotiCloud</h2>
-            <h4> SpotiCloud is a project made to create Word Cloud art based off of a users Spotify Data.</h4>
-            <a href="{{ url_for('wordcloud.about') }}"> Want to learn more? </a><br>
-            <a href="{{url_for('wordcloud.wordCloud')}}" class="btn btn-primary" role="button"> Generate Spoticloud </a>
-            <a href="{{url_for('wordcloud.form')}}" class="btn btn-info" role="button"> Generate Custom Spoticloud </a>
+            <div>
+            <h6 class="h6"> SpotiCloud is a project made to create Word Cloud art based off of a users Spotify Data.</h6>
+            <a href="{{ url_for('wordcloud.about') }}"> Want to learn more? </a>
+            </div>
+            <div class="row mt-4 pt-4">
+                <div class="d-flex justify-content-md-center col-md-6">
+                    <a href="{{url_for('wordcloud.wordCloud')}}" class="btn btn-primary" role="button"> Generate Spoticloud </a>
+                </div>
+                <div class="d-flex justify-content-md-center col-md-6">
+                    <a href="{{url_for('wordcloud.form')}}" class="btn btn-info" role="button"> Generate Custom Spoticloud </a>
+                </div>
+            </div>
             <br><br>
             <!-- {{ session['user_data'] }} -->
         {% endif %}

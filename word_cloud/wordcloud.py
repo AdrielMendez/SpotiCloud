@@ -9,10 +9,11 @@ bp = Blueprint('wordcloud', __name__)
 
 @bp.route("/form", methods=['GET', 'POST'])
 def form():
+    domain = "SpotiCloud"
+    page_name = "Customize your Cloud"
     if 'access_token' not in session:
         return redirect(url_for('auth.login'))
     else:
-        header = "SpotiCloud Form"
         if request.method == 'POST':
             data = {}
             data['theme'] = request.form.get('theme') 
@@ -24,25 +25,27 @@ def form():
             session['form_data'] = dict(data)
             return redirect(url_for('wordcloud.wordCloud'))
 
-        return render_template('form.html', form=form, name=header)
+        return render_template('form.html', form=form, name=page_name, domain=domain)
 
 
 @bp.route('/')
 @bp.route('/home')
 def home():
     template = "home.html"
+    domain = "SpotiCloud"
     page_name = "Home"
     if 'access_token' in session:
         page_name = "SpotiCloud"
-        return render_template(template, name=page_name)
+        return render_template(template, name=page_name, domain=domain)
 
-    return render_template(template, name=page_name)
+    return render_template(template, name=page_name, domain=domain)
 
 
 @bp.route('/wordCloud')
 def wordCloud():
     """connection to WordCloud class is done here"""
     template = "home.html"
+    domain = "SpotiCloud"
     page_name = "WordCloud Creation"
     if 'access_token' not in session:
         return redirect(url_for('wordcloud.home'))
@@ -50,14 +53,15 @@ def wordCloud():
         # scheduler job followed by redirect.
         redirect(url_for('wordcloud.about'))
         createWordCloud()
-    return render_template(template, name=page_name)
+    return render_template(template, name=page_name, domain=domain)
 
 
 @bp.route('/about/')
 def about():
     template = "about.html"
+    domain = "SpotiCloud"
     page_name = "About"
-    return render_template(template, name=page_name)
+    return render_template(template, name=page_name, domain=domain)
     
 
 def createWordCloud(data=None):
