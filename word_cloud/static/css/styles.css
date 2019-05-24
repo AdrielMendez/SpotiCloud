@@ -1,7 +1,23 @@
-/* @import url("https://fonts.googleapis.com/css?family=Noto+Sans:700&display=swap");
- */
+@import url("https://fonts.googleapis.com/css?family=Montserrat:700&display=swap");
 body {
-  background-color: #FC4445 !important;
-  font-family: 'Noto Sans', sans-serif;
+  background-color: #191414 !important;
+  font-family: 'Montserrat', sans-serif !important;
+  color: #ffffff !important;
+}
+
+body #userImg {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.navbar a {
+  color: #1DD760 !important;
+}
+
+.navbar a:hover {
+  color: #149442 !important;
 }
 /*# sourceMappingURL=styles.css.map */

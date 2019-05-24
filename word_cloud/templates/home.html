@@ -14,7 +14,7 @@
             </div>
         {% else %}
             <h2 class="h2"> Hello, 
-            <img src="{{session['user_data']['images'][0]['url']}}" style="height:50px; width:50px; border-radius:50%; object-fit:cover"></img>
+            <img src="{{session['user_data']['images'][0]['url']}}" id="userImg"></img>
             {{session['user_data']['display_name']}}! </h2>
             <h2 class="h2"> Welcome to SpotiCloud</h2>
             <h4> SpotiCloud is a project made to create Word Cloud art based off of a users Spotify Data.</h4>
