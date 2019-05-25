@@ -62,4 +62,40 @@ body #userImg {
   -webkit-transition: all 33ms cubic-bezier(0.3, 0, 0, 1);
   transition: all 33ms cubic-bezier(0.3, 0, 0, 1);
 }
+
+.team {
+  padding-bottom: 20px;
+  background-color: gray;
+}
+
+.team img {
+  height: 100px;
+  width: 100px;
+}
+
+.teamtext {
+  height: 90px;
+  line-height: 90px;
+  text-align: center;
+}
+
+.cd-member-bio {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 270px;
+  height: 100%;
+  overflow-y: auto;
+  /* smooth scrolling on mobile phones and tablets */
+  -webkit-overflow-scrolling: touch;
+  /* this how we move the author bio section off the canvas */
+  -webkit-transform: translateX(270px);
+          transform: translateX(270px);
+  -webkit-transition-property: -webkit-transform;
+  transition-property: -webkit-transform;
+  transition-property: transform;
+  transition-property: transform, -webkit-transform;
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+}
 /*# sourceMappingURL=styles.css.map */

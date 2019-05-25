@@ -3,12 +3,84 @@
 {%block content%}
 
     {% block header %}
-        <h1>{{name}}</h1>
+        <h1>{{domain}}</h1>
     {% endblock header %}
-
     {% block main %}
-                <h2 class="h2">this is just test data:</h2>
-                {{ session['access_token'] }}
+        <h3>The Team</h3>
+        <p>the team info goes here</p>
+
+        <div class="album py-5">
+                <div class="container">
+        
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="card mb-3 box-shadow">
+                        <img class="card-img-top" src="{{ url_for('static',filename='images/adriel.png')}}" alt="Card image cap">
+                        <div class="card-body">
+                            <p style="color:black">Adriel Mendez</p>
+                          <p class="card-text" style="color:black">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="card mb-3 box-shadow">
+                        <img class="card-img-top" src="{{ url_for('static',filename='images/marcos.png')}}" alt="Card image cap">
+                        <div class="card-body">
+                            <p style="color:black"> Marcos Montes de Oca</p>
+                          <p class="card-text" style="color:black">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <h3 class="h3">{{ name }}</h3> 
+                        <p> {{domain}} is a project created to allow users to create word clouds out of their spotify information. We decided to take advantage of most of the parameters provided to us and create a custom form for many options. We're music lovers who love to express our taste with our friends, so we decided to create this application after observing how large the quantity of data given by the Spotify API is. This also was an experimentation for us to experience deploying our own application to the public. We hope to continue to update this website to allow for more future customizations in hopes that people will enjoy using it. </p>
+                        <h3>Thanks to</h3>       
+                        <a href="https://github.com/amueller/word_cloud">Word Cloud - By Anreas Mueller</a>
+                        <a href="https://developer.spotify.com/documentation/web-api/">Spotify API</a>
+                        <a href="https://docs.genius.com/">Genius API</a>
+                        <a href="https://github.com/plamere/spotipy">Spotipy - By Paul Lamere</a>
+                        <a href="https://salty-beach-42139.herokuapp.com/about"> Festify - By Rick Rieta and Tony Bui</a>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <p>
+                    The MIT License
+
+                    Copyright (c) 2010-2019 Google, Inc. http://angularjs.org
+                    
+                    Permission is hereby granted, free of charge, to any person obtaining a copy
+                    of this software and associated documentation files (the "Software"), to deal
+                    in the Software without restriction, including without limitation the rights
+                    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+                    copies of the Software, and to permit persons to whom the Software is
+                    furnished to do so, subject to the following conditions:
+                    
+                    The above copyright notice and this permission notice shall be included in
+                    all copies or substantial portions of the Software.
+                    
+                    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+                    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+                    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+                    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+                    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+                    THE SOFTWARE.
+              </p>
+              
     {% endblock main %}
 
 {% endblock %}
