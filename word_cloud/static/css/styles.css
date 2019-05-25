@@ -79,23 +79,53 @@ body #userImg {
   text-align: center;
 }
 
-.cd-member-bio {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 270px;
-  height: 100%;
-  overflow-y: auto;
-  /* smooth scrolling on mobile phones and tablets */
-  -webkit-overflow-scrolling: touch;
-  /* this how we move the author bio section off the canvas */
-  -webkit-transform: translateX(270px);
-          transform: translateX(270px);
-  -webkit-transition-property: -webkit-transform;
-  transition-property: -webkit-transform;
-  transition-property: transform;
-  transition-property: transform, -webkit-transform;
-  -webkit-transition-duration: 0.3s;
-          transition-duration: 0.3s;
+.teamcard {
+  background-color: #282828 !important;
+}
+
+.links > p {
+  color: #1DD760 !important;
+}
+
+.links > a {
+  color: #1DD760 !important;
+}
+
+.links > a:hover {
+  color: #0e672e !important;
+  text-decoration: none;
+}
+
+.gallery {
+  -webkit-column-count: 3;
+  column-count: 3;
+  -webkit-column-width: 33%;
+  column-width: 33%;
+}
+
+.gallery .pics {
+  -webkit-transition: all 350ms ease;
+  transition: all 350ms ease;
+}
+
+.gallery .animation {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+@media (max-width: 450px) {
+  .gallery {
+    -webkit-column-count: 1;
+    column-count: 1;
+    -webkit-column-width: 100%;
+    column-width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .btn.filter {
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+  }
 }
 /*# sourceMappingURL=styles.css.map */
