@@ -37,9 +37,57 @@
                     <a href="{{url_for('wordcloud.form')}}" class="btn btn-info" role="button"> Generate Custom Spoticloud </a>
                 </div>
             </div>
-            <br><br>
+            
+      <!-- Grid row -->
             <!-- {{ session['user_data'] }} -->
         {% endif %}
+        <br><br>
+            <h2>User Submitted Examples</h2>
+            <br>
+            <div class="gallery" id="gallery">
+            
+                <!-- Grid column -->
+                <div class="mb-3 pics animation all 2">
+                    <img class="img-fluid" src="{{ url_for('static',filename='gallery/1.png')}}" alt="Card image cap">
+                </div>
+                    <!-- Grid column -->
+                
+                    <!-- Grid column -->
+                <div class="mb-3 pics animation all 1">
+                    <img class="img-fluid" src="{{ url_for('static',filename='gallery/9.png')}}" alt="Card image cap">
+                </div>
+                    <!-- Grid column -->
+                
+                    <!-- Grid column -->
+                <div class="mb-3 pics animation all 1">
+                    <img class="img-fluid" src="{{ url_for('static',filename='gallery/10.png')}}" alt="Card image cap">
+                </div>
+                    <!-- Grid column -->
+                
+                    <!-- Grid column -->
+                <div class="mb-3 pics animation all 2">
+                    <img class="img-fluid" src="{{ url_for('static',filename='gallery/9.png')}}" alt="Card image cap">
+                </div>
+                    <!-- Grid column -->
+                
+                    <!-- Grid column -->
+                <div class="mb-3 pics animation all 2">
+                    <img class="img-fluid" src="{{ url_for('static',filename='gallery/5.png')}}" alt="Card image cap">
+                </div>
+                    <!-- Grid column -->
+                <div class="mb-3 pics animation all 2">
+                    <img class="img-fluid" src="{{ url_for('static',filename='gallery/9.png')}}" alt="Card image cap">
+                </div>
+                    <!-- Grid column -->
+                <div class="mb-3 pics animation all 1">
+                    <img class="img-fluid" src="{{ url_for('static',filename='gallery/4.png')}}" alt="Card image cap">
+                </div>
+                    <!-- Grid column -->
+                <div class="mb-3 pics animation all 2">
+                    <img class="img-fluid" src="{{ url_for('static',filename='gallery/9.png')}}" alt="Card image cap">
+                </div>
+                
+            </div>
     {%- endblock main -%}
 
 {% endblock %}
