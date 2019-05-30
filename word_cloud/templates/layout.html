@@ -18,8 +18,8 @@
         {% else %}
             <nav class="navbar ml-auto flex-column pt-5">
                 <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.home') }}">Home</a>
-                <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.clouds') }}">Clouds</a>
                 <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.about') }}">About</a>
+                <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.clouds') }}">Clouds</a>
                 <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('auth.logout') }}">Logout</a>
             </nav>
         {% endif %}
