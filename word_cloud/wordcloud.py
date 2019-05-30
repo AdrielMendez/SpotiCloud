@@ -108,7 +108,11 @@ def createWordCloud(data=None):
         else:
             sc = SpotifyCloud(theme=data['theme'], viewport=data['viewport'], lyric=cloud_type, background_color=data['background'],
                 time_range=data['time_range'], number_songs=data['number_songs'], height=int(data['height']), width=int(data['width']))
-    if 'access_token' in session:
+        token = session['access_token']
+    elif 'access_token' in session:
+        data = sc.generateRandomAttributes()
+        sc = SpotifyCloud(theme=data['theme'], viewport=data['viewport'], background_color=data['background'],
+            time_range=data['time_range'], number_songs=data['number_songs'], lyric=data['lyric'])
         token = session['access_token']
     else:
         return redirect(url_for('auth.login'))
