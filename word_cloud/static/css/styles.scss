@@ -144,3 +144,11 @@ background-color: map-get($map: $bgcolors, $key: 7) !important;
 #customDimensions {
     color: map-get($map: $bgcolors, $key: 4);
 }
+
+.cloudImage {
+    // padding: 50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}

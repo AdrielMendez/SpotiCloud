@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import argparse
 import numpy as np
 from .colormap import colormap
+import string
 
 
 
@@ -65,7 +66,7 @@ class SpotifyCloud():
             self.min_font_size = min_font_size
        
         if self.background_color == 'random':
-            self.background_color = colormap[random.randint(0,149)]
+            self.background_color = colormap[random.randint(1,148)]
 
 
     def scrap_song_url(self, url):
@@ -95,9 +96,9 @@ class SpotifyCloud():
     
     # helper function for writing image to cloud.png to  ./result/
     def save_wordCloud(self, wc):
-        dir = os.getcwd()
-        wc.to_file( dir + "/result/cloud.png")
-        
+        save_dir = os.getcwd() + "/word_cloud/static/uploads/"
+        name = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10)) + '.png'
+        wc.to_file(save_dir + name )
 
     def createWordCloud(self, textFile):
         # d = path.dirname(__file__) if "__file__" in locals() else os.getcwd()

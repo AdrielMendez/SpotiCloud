@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %} {{domain}} {% endblock %}
+{% block link %}
+    <link rel="stylesheet" media="screen" href="static/bootstrap.min.css">
+    <link rel="stylesheet" href="static/bootstrap-theme.min.css">
+{% endblock %}
+
+{% block meta %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
+{%block content%}
+    {% block header %}
+    <h1 class="h1">{{ domain }}</h1>
+    {% endblock %}
+    {%- block main -%}
+    <h3 class="h3">{{ name }}</h3>
+    {% for image_url in image_urls %}
+        <div class="cloudImage">
+            <img class="img-fluid" src="{{ url_for('static', filename='uploads/' + image_url ) }}">
+        </div>
+    {% endfor %}
+    {%- endblock -%}
+
+{% endblock %}

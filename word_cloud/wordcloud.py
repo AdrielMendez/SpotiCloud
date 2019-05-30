@@ -4,6 +4,7 @@ from wtforms import Form, TextField, TextAreaField, validators, StringField, Sub
 from .src.SpotifyCloud import SpotifyCloud
 import spotipy
 import sys
+import os
 
 bp = Blueprint('wordcloud', __name__)
 
@@ -67,6 +68,20 @@ def about():
     page_name = "About"
     return render_template(template, name=page_name, domain=domain)
     
+@bp.route('/clouds/')
+def clouds():
+    template="clouds.html"
+    domain = "SpotiCloud"
+    page_name = "Generated Clouds" 
+    if 'access_token' not in session:
+        return redirect(url_for('auth.login'))
+    else: 
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        dir_path += '/static/uploads'
+        paths = []  
+        for filename in os.listdir(dir_path):
+            paths.append(filename)  
+        return render_template(template, name=page_name, domain=domain, image_urls=paths)
 
 def createWordCloud(data=None):
     token = ''
