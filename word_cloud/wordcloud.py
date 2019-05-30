@@ -3,6 +3,7 @@ from .auth import getplaylist
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 from .src.SpotifyCloud import SpotifyCloud
 import spotipy
+import sys
 
 bp = Blueprint('wordcloud', __name__)
 
@@ -22,6 +23,9 @@ def form():
             data['viewport'] = request.form.get('viewport')
             data['number_songs'] = request.form.get('number_songs')
             data['time_range'] = request.form.get('time_range')
+            if data['viewport'] == 'custom':
+                data['height'] = request.form.get('height')
+                data['width'] = request.form.get('width')
             session['form_data'] = dict(data)
             return redirect(url_for('wordcloud.wordCloud'))
 
@@ -70,10 +74,14 @@ def createWordCloud(data=None):
 
     if 'form_data' in session and 'access_token' in session:
         data = session['form_data']
+        print(data, file=sys.stderr)
         cloud_type = True if data['cloud_type'] == 'lyric' else False
-        sc = SpotifyCloud(theme=data['theme'], viewport=data['viewport'], lyric=cloud_type, background_color=data['background'],
-            time_range=data['time_range'], number_songs=data['number_songs'])
-        
+        if data['viewport'] != 'custom':
+            sc = SpotifyCloud(theme=data['theme'], viewport=data['viewport'], lyric=cloud_type, background_color=data['background'],
+                time_range=data['time_range'], number_songs=data['number_songs'])
+        else:
+            sc = SpotifyCloud(theme=data['theme'], viewport=data['viewport'], lyric=cloud_type, background_color=data['background'],
+                time_range=data['time_range'], number_songs=data['number_songs'], height=int(data['height']), width=int(data['width']))
     if 'access_token' in session:
         token = session['access_token']
     else:

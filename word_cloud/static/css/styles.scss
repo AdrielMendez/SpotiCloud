@@ -90,21 +90,6 @@ height: 90px;
   text-align: center;
 }
 
-// .cd-member-bio {
-//     position: fixed;
-//     top: 0;
-//     right: 0;
-//     width: 270px;
-//     height: 100%;
-//     overflow-y: auto;
-//     /* smooth scrolling on mobile phones and tablets */
-//     -webkit-overflow-scrolling: touch;
-//     /* this how we move the author bio section off the canvas */
-//     transform: translateX(270px);
-//     transition-property: transform;
-//     transition-duration: 0.3s;
-//   }
-
 .teamcard {
 background-color: map-get($map: $bgcolors, $key: 7) !important;
 }
@@ -154,4 +139,8 @@ background-color: map-get($map: $bgcolors, $key: 7) !important;
         padding-left: 1.1rem;
         padding-right: 1.1rem;
     }
+}
+
+#customDimensions {
+    color: map-get($map: $bgcolors, $key: 4);
 }

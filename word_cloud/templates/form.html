@@ -15,6 +15,7 @@
     {% endblock %}
     {%- block main -%}
     <h3 class="h3">{{ name }}</h3>
+        <script src="{{ url_for('static', filename='js/form.js') }}"></script>
         <form action="{{url_for('wordcloud.form')}}" method="post" role="form" class="ml-2 mt-3 mb-5 pl-4 pb-5 ">
 
         <label for="theme">Theme</label>
@@ -37,9 +38,14 @@
         </p>
         <label for="viewport">Dimension</label>
         <p>
-            <input type="radio" name="viewport" id="desktop" value="desktop" required> Desktop (1920 x 1080) <br>
-            <input type="radio" name="viewport" id="mobile" value="mobile"> Mobile (720 x 1280) <br>
-            <input type="radio" name="viewport" id="custom" value="custom"> Custom<br>
+            <input type="radio" name="viewport" id="desktop" value="desktop" required onclick="customDimension(this);"> Desktop (1920 x 1080) <br>
+            <input type="radio" name="viewport" id="mobile" value="mobile"onclick="customDimension(this);"> Mobile (720 x 1280) <br>
+            <input type="radio" name="viewport" id="custom" value="custom" onclick="customDimension(this);"> Custom<br>
+            <div id="customDimensions" style="display: none;">
+                <label for="height"> Height (in pixels) </label> <input type="number" name="height" min="1" max="2000" /><br> 
+                <label for="width"> Width (in pixels) </label> <input type="number" name="width" min="1" max="2000">
+            </div>
+            
         </p>
         <label for="number_songs">Number of Songs</label>
         <p>
