@@ -18,6 +18,7 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import argparse
 import numpy as np
+from .colormap import colormap
 
 
 
@@ -62,6 +63,9 @@ class SpotifyCloud():
             self.max_font_size = max_font_size
             self.max_words = max_words
             self.min_font_size = min_font_size
+       
+        if self.background_color == 'random':
+            self.background_color = colormap[random.randint(0,149)]
 
 
     def scrap_song_url(self, url):
