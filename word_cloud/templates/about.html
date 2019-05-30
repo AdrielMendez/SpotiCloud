@@ -9,18 +9,21 @@
         <div style="padding-left:25px">
             <h3>The Team</h3>
             <div class="links">
-                <p>We are two loquitos who nos conocimos en College, at The University of Central Florida. Some of our common top artists are Bad Bunny, Sufjan Stevens, and El Alfa. Common beers we like are St. Bernardus Abt 12, Delerium Tremens, and Presidente. Insert other random shit about us</p>
+                <p>We are two loquitos who nos conocimos en College, at The University of Central Florida. We like music and API's. 
+                  Some of our common top artists are Bad Bunny, Sufjan Stevens, and El Alfa. 
+                  Common beers we like are St. Bernardus Abt 12, Delerium Tremens, and Presidente. And We always lit for programming.
+                  </p>
             </div>
         </div>
         <div class="album py-5">
-                <div class="container">
                   <div class="row">
+
                     <div class="col-md-3">
-                      <div class="card mb-3 box-shadow" style="border:1px solid rgb(40,40,40)">
+                      <div class="card mb-3 box-shadow">
                         <img class="card-img-top" src="{{ url_for('static',filename='images/adriel.png')}}" alt="Card image cap">
                         <div class="card-body teamcard">
-                            <p style="color:white">Adriel Mendez</p>
-                          <p class="card-text" style="color:white">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p>Adriel Mendez</p>
+                          <p class="card-text" >This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">
@@ -36,14 +39,15 @@
                                 </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
+                      </div>{# end card div #}
+                    </div>{# end column div #}
+
                     <div class="col-md-3">
-                      <div class="card mb-3 box-shadow" style="border:1px solid rgb(40,40,40)">
+                      <div class="card mb-3 box-shadow " style="border:1px solid rgb(40,40,40)">
                         <img class="card-img-top" src="{{ url_for('static',filename='images/marcos.png')}}" alt="Card image cap">
                         <div class="card-body teamcard">
-                            <p style="color:white"> Marcos Montes de Oca</p>
-                          <p class="card-text" style="color:white">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p> Marcos Montes de Oca</p>
+                          <p class="card-text" >This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">
@@ -59,8 +63,9 @@
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
+                      </div>{# end card div #}
+                    </div>{# end column div #}
+
                     <div class="col-sm-6 col-md-6">
                         <h3 class="h3">{{ name }}</h3> 
                         <p> {{domain}} is a project created to allow users to create word clouds out of their spotify information. We decided to take advantage of most of the parameters provided to us and create a custom form for many options. We're music lovers who love to express our taste with our friends, so we decided to create this application after observing how large the quantity of data given by the Spotify API is. This also was an experimentation for us to experience deploying our own application to the public. We hope to continue to update this website to allow for more future customizations in hopes that people will enjoy using it. </p>
@@ -74,12 +79,11 @@
                         </div>       
                         
                     </div>
-                  </div>
-                </div>
+                  </div> {# end row div #}
                 
               </div>
-              <h3 style="color:#363636"> The MIT License</h3>
-              <p style="color:#363636">
+              <h3 ><a href="#demo" data-toggle="collapse" style="color:#363636; text-decoration: none">The MIT License</a></h3>
+              <p id="demo" class="collapse" style="color:#363636" >
                     The wordcloud library is MIT licenced, but contains DroidSansMono.ttf, a true type font by Google, that is apache licensed. The font is by no means integral, and any other font can be used by setting the font_path variable when creating a WordCloud object.
                     <br><br>
                     Copyright (c) 2014 Paul Lamere
@@ -106,4 +110,4 @@
               
     {% endblock main %}
 
-{% endblock %}
+{% endblock content%}

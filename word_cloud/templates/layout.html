@@ -28,5 +28,9 @@
 
     {% block main %}{% endblock main %}
 
+    {% block scripts %}
+        <script src="{{bootstrap_find_resource('jquery.js', cdn='jquery')}}"></script>
+        <script src="{{bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap')}}"></script>
+    {%- endblock scripts %}
 </div>{# end of conainer div #}
 {% endblock body %}

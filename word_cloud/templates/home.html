@@ -37,9 +37,14 @@
                     <a href="{{url_for('wordcloud.form')}}" class="btn btn-info" role="button"> Generate Custom Spoticloud </a>
                 </div>
             </div>
-            
-      <!-- Grid row -->
-            <!-- {{ session['user_data'] }} -->
+            {% if image_url|length > 0 %}
+                <div id="overlay" onclick="off()">
+                        <div id="cloudImg">
+                            <img class="img-fluid" src="{{ url_for('static', filename='uploads/' + image_url ) }}">
+                        </div>
+                </div>
+            {% endif %}
+
         {% endif %}
         <br><br>
             <h2>User Submitted Examples</h2>
@@ -90,4 +95,17 @@
             </div>
     {%- endblock main -%}
 
-{% endblock %}
+{% endblock content %}
+{% block scripts %}
+    {{super()}}
+    <script>
+        $(document).ready(
+        function on() {
+            document.getElementById("overlay").style.display = "block";
+        })
+        
+        function off() {
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+  {% endblock scripts %}

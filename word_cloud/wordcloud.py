@@ -9,29 +9,6 @@ import os
 bp = Blueprint('wordcloud', __name__)
 
 
-@bp.route("/form", methods=['GET', 'POST'])
-def form():
-    domain = "SpotiCloud"
-    page_name = "Customize your Cloud"
-    if 'access_token' not in session:
-        return redirect(url_for('auth.login'))
-    else:
-        if request.method == 'POST':
-            data = {}
-            data['theme'] = request.form.get('theme') 
-            data['background'] = request.form.get('background')
-            data['cloud_type'] = request.form.get('type')
-            data['viewport'] = request.form.get('viewport')
-            data['number_songs'] = request.form.get('number_songs')
-            data['time_range'] = request.form.get('time_range')
-            if data['viewport'] == 'custom':
-                data['height'] = request.form.get('height')
-                data['width'] = request.form.get('width')
-            session['form_data'] = dict(data)
-            return redirect(url_for('wordcloud.wordCloud'))
-
-        return render_template('form.html', form=form, name=page_name, domain=domain)
-
 
 @bp.route('/')
 @bp.route('/home')
@@ -39,6 +16,9 @@ def home():
     template = "home.html"
     domain = "SpotiCloud"
     page_name = "Home"
+    img_paths = get_clouds()
+    if len(img_paths) > 0:
+        return render_template(template, name=page_name, domain=domain, image_url=img_paths[-1])
     if 'access_token' in session:
         page_name = "SpotiCloud"
         return render_template(template, name=page_name, domain=domain)
@@ -68,6 +48,7 @@ def about():
     page_name = "About"
     return render_template(template, name=page_name, domain=domain)
     
+
 @bp.route('/clouds/')
 def clouds():
     template="clouds.html"
@@ -76,12 +57,42 @@ def clouds():
     if 'access_token' not in session:
         return redirect(url_for('auth.login'))
     else: 
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        dir_path += '/static/uploads'
-        paths = []  
-        for filename in os.listdir(dir_path):
-            paths.append(filename)  
-        return render_template(template, name=page_name, domain=domain, image_urls=paths)
+        img_paths = get_clouds()
+        return render_template(template, name=page_name, domain=domain, image_urls=img_paths)
+
+
+@bp.route("/form", methods=['GET', 'POST'])
+def form():
+    domain = "SpotiCloud"
+    page_name = "Customize your Cloud"
+    if 'access_token' not in session:
+        return redirect(url_for('auth.login'))
+    else:
+        if request.method == 'POST':
+            data = {}
+            data['theme'] = request.form.get('theme') 
+            data['background'] = request.form.get('background')
+            data['cloud_type'] = request.form.get('type')
+            data['viewport'] = request.form.get('viewport')
+            data['number_songs'] = request.form.get('number_songs')
+            data['time_range'] = request.form.get('time_range')
+            if data['viewport'] == 'custom':
+                data['height'] = request.form.get('height')
+                data['width'] = request.form.get('width')
+            session['form_data'] = dict(data)
+            return redirect(url_for('wordcloud.wordCloud'))
+
+        return render_template('form.html', form=form, name=page_name, domain=domain)
+
+
+def get_clouds():
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    dir_path += '/static/uploads'
+    imgs = []
+    for filename in os.listdir(dir_path):
+        imgs.append(filename)
+    return imgs
+
 
 def createWordCloud(data=None):
     token = ''
