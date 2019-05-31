@@ -183,3 +183,10 @@ background-color: map-get($map: $bgcolors, $key: 7) !important;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
   }
+
+  #cloudPreview {
+    width:auto;
+    height:auto;
+    max-width:90vw;
+    max-height:90vh;
+  }

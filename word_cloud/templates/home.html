@@ -40,7 +40,7 @@
             {% if image_url|length > 0 %}
                 <div id="overlay" onclick="off()">
                         <div id="cloudImg">
-                            <img class="img-fluid" src="{{ url_for('static', filename='uploads/' + image_url ) }}">
+                            <img id="cloudPreview"class="img-fluid" src="{{ url_for('static', filename='uploads/' + image_url ) }}">
                         </div>
                 </div>
             {% endif %}
@@ -100,7 +100,7 @@
     {{super()}}
     <script>
         $(document).ready(
-        function on() {
+        function () {
             document.getElementById("overlay").style.display = "block";
         })
         

@@ -35,10 +35,10 @@ def wordCloud():
     if 'access_token' not in session:
         return redirect(url_for('wordcloud.home'))
     else:
-        # scheduler job followed by redirect.
-        redirect(url_for('wordcloud.about'))
+        # scheduler job followed by redirect
         createWordCloud()
-    return render_template(template, name=page_name, domain=domain)
+        return redirect(url_for('wordcloud.home'))
+    # return render_template(template, name=page_name, domain=domain)
 
 
 @bp.route('/about/')
