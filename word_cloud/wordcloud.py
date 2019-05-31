@@ -63,6 +63,7 @@ def clouds():
         return redirect(url_for('auth.login'))
     else: 
         img_paths = get_clouds()
+        img_paths.reverse()
         return render_template(template, name=page_name, domain=domain, image_urls=img_paths)
 
 
@@ -96,6 +97,7 @@ def get_clouds():
     imgs = []
     for filename in os.listdir(dir_path):
         imgs.append(filename)
+    imgs.sort()
     return imgs
 
 def get_gallery_imgs():

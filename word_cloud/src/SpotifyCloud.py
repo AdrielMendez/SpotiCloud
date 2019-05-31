@@ -20,6 +20,7 @@ import argparse
 import numpy as np
 from .colormap import colormap, attributes
 import string
+import datetime
 
 
 
@@ -97,11 +98,10 @@ class SpotifyCloud():
     # helper function for writing image to cloud.png to  ./result/
     def save_wordCloud(self, wc):
         save_dir = os.getcwd() + "/word_cloud/static/uploads/"
-        name = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10)) + '.png'
+        name = '{0:%Y-%m-%d_%H:%M:%S}'.format(datetime.datetime.now()) + '.png'
         wc.to_file(save_dir + name )
 
     def createWordCloud(self, textFile):
-        # d = path.dirname(__file__) if "__file__" in locals() else os.getcwd()
         d = os.getcwd() 
         text = open(path.join(d, textFile)).read()
         my_stopwords = set(STOPWORDS)
@@ -129,8 +129,6 @@ class SpotifyCloud():
             plt.imshow(default_colors, interpolation="bilinear")
             self.save_wordCloud(wc)
         else:
-            #path_to_theme = 'themes/' + self.theme + '-' + self.viewport + '.png'
-            #path_to_theme = os.getcwd() + '/word_cloud/src/themes/' + self.theme + '-' + self.viewport + '.png'
             path_to_theme = self.resizeImage()
             theme_mask = np.array(Image.open(path.join(d, path_to_theme)))
             image_colors = ImageColorGenerator(theme_mask)
