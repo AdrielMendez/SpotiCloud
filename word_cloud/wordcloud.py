@@ -17,13 +17,14 @@ def home():
     domain = "SpotiCloud"
     page_name = "Home"
     img_paths = get_clouds()
+    gallery_imgs = get_gallery_imgs()
     if len(img_paths) > 0:
-        return render_template(template, name=page_name, domain=domain, image_url=img_paths[-1])
+        return render_template(template, name=page_name, domain=domain, image_url=img_paths[-1], gallery_imgs=gallery_imgs)
     if 'access_token' in session:
         page_name = "SpotiCloud"
-        return render_template(template, name=page_name, domain=domain)
+        return render_template(template, name=page_name, domain=domain, gallery_imgs=gallery_imgs)
 
-    return render_template(template, name=page_name, domain=domain)
+    return render_template(template, name=page_name, domain=domain, gallery_imgs=gallery_imgs)
 
 
 @bp.route('/wordCloud')
@@ -93,6 +94,14 @@ def get_clouds():
         imgs.append(filename)
     return imgs
 
+def get_gallery_imgs():
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    dir_path += '/static/gallery'
+    imgs = []
+    for filename in os.listdir(dir_path):
+        if filename.lower().endswith('.png'):
+            imgs.append(filename)
+    return imgs
 
 def createWordCloud(data=None):
     token = ''
