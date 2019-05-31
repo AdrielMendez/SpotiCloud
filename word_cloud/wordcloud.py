@@ -18,13 +18,16 @@ def home():
     page_name = "SpotiCloud"
     img_paths = get_clouds()
     gallery_imgs = get_gallery_imgs()
-    if ('new_cloud' in session == True) and 'access_token' in session:
-        session.pop('new_cloud')
-        return render_template(template, name=page_name, domain=domain, image_url=img_paths[-1], gallery_imgs=gallery_imgs)
+
     if 'access_token' in session:
+        if 'new_cloud' in session:
+            session.pop('new_cloud')
+            return render_template(template, name=page_name, domain=domain, image_url=img_paths[-1], gallery_imgs=gallery_imgs)
+        else:
+            return render_template(template, name=page_name, domain=domain, gallery_imgs=gallery_imgs)
+    else:
+        page_name = "Home"
         return render_template(template, name=page_name, domain=domain, gallery_imgs=gallery_imgs)
-    page_name = "Home"
-    return render_template(template, name=page_name, domain=domain, gallery_imgs=gallery_imgs)
 
 
 @bp.route('/wordCloud')
@@ -38,7 +41,7 @@ def wordCloud():
     else:
         # scheduler job followed by redirect
         createWordCloud()
-        session['new_cloud'] = True
+        session['new_cloud'] = 'in session'
         return redirect(url_for('wordcloud.home'))
     # return render_template(template, name=page_name, domain=domain)
 
