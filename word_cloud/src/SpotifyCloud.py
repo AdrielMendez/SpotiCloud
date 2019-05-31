@@ -156,7 +156,7 @@ class SpotifyCloud():
         parameters['lyric'] = attributes["lyric"][random.randint(0,1)]
         parameters['theme'] = attributes["theme"][random.randint(0,3)]
         parameters['viewport'] = "desktop"
-        parameters['background'] = colormap[random.randint(0,148)]
+        parameters['background'] = colormap[random.randint(0,147)]
         return parameters
 
 
