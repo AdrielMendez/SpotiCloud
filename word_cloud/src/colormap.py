@@ -148,3 +148,10 @@ colormap = [
     "yellow",
     "yellowgreen",
 ]
+
+attributes = {
+    "time_range": ["short_term", "medium_term", "long_term"],
+    "number_songs": [10, 25, 50],
+    "lyric": [True, False],
+    "theme": ["kay", "ds2", "incolour", "kod"]
+}

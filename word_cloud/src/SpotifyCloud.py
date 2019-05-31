@@ -18,7 +18,7 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import argparse
 import numpy as np
-from .colormap import colormap
+from .colormap import colormap, attributes
 import string
 
 
@@ -148,6 +148,16 @@ class SpotifyCloud():
 
         final = [i for (i, n) in zip(lyrics, unwanted) if n is False]
         return ' '.join(final)
+
+    def generateRandomAttributes(self):
+        parameters = {}
+        parameters['time_range'] = attributes["time_range"][random.randint(0,2)]
+        parameters['number_songs'] = attributes["number_songs"][random.randint(0,2)]
+        parameters['lyric'] = attributes["lyric"][random.randint(0,1)]
+        parameters['theme'] = attributes["theme"][random.randint(0,3)]
+        parameters['viewport'] = "desktop"
+        parameters['background'] = colormap[random.randint(0,148)]
+        return parameters
 
 
 def main():
