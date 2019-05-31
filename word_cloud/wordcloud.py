@@ -15,15 +15,15 @@ bp = Blueprint('wordcloud', __name__)
 def home():
     template = "home.html"
     domain = "SpotiCloud"
-    page_name = "Home"
+    page_name = "SpotiCloud"
     img_paths = get_clouds()
     gallery_imgs = get_gallery_imgs()
-    if len(img_paths) > 0:
+    if ('new_cloud' in session == True) and 'access_token' in session:
+        session.pop('new_cloud')
         return render_template(template, name=page_name, domain=domain, image_url=img_paths[-1], gallery_imgs=gallery_imgs)
     if 'access_token' in session:
-        page_name = "SpotiCloud"
         return render_template(template, name=page_name, domain=domain, gallery_imgs=gallery_imgs)
-
+    page_name = "Home"
     return render_template(template, name=page_name, domain=domain, gallery_imgs=gallery_imgs)
 
 
@@ -36,10 +36,11 @@ def wordCloud():
     if 'access_token' not in session:
         return redirect(url_for('wordcloud.home'))
     else:
-        # scheduler job followed by redirect.
-        redirect(url_for('wordcloud.about'))
+        # scheduler job followed by redirect
         createWordCloud()
-    return render_template(template, name=page_name, domain=domain)
+        session['new_cloud'] = True
+        return redirect(url_for('wordcloud.home'))
+    # return render_template(template, name=page_name, domain=domain)
 
 
 @bp.route('/about/')
