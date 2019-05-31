@@ -13,10 +13,6 @@
                 <h2 class="h2"> Welcome to SpotiCloud</h2>
                 <h4> SpotiCloud is a project made to create Word Cloud art based off of a users Spotify Data.</h4>
                 <h2 class="h2">login to see your personal Word Cloud</h2>
-                <!-- <button type="button" class="spotifyButton">
-                    <img id="spotifyIcon" src="{{ url_for('static',filename='images/spotifyIcon.png')}}">
-                    <a href="{{ url_for('auth.login') }}">Login to Spotify</a>
-                </button> -->
                 <br>
                 <a role="button" class="spotifyButton" id="spotifyHover" href="{{ url_for('auth.login') }}">
                     <img id="spotifyIcon" src="{{ url_for('static',filename='images/spotifyIcon.png')}}">Login to Spotify
@@ -26,17 +22,17 @@
             <h2 class="h2"> Hello, 
             <img src="{{session['user_data']['images'][0]['url']}}" id="userImg"></img>
             {{session['user_data']['display_name']}}! </h2>
-            <h2 class="h2"> Welcome to SpotiCloud</h2>
-            <div>
+            <h2 class="h2 mt-3"> Welcome to SpotiCloud</h2>
+            <div class="ml-2">
                 <h6 class="h6"> SpotiCloud is a project made to create Word Cloud art based off of a users Spotify Data.</h6>
                 <a href="{{ url_for('wordcloud.about') }}"> Want to learn more? </a>
             </div>
             <div class="row mt-4 pt-4">
                 <div class="d-flex justify-content-md-center col-md-6">
-                    <a href="{{url_for('wordcloud.wordCloud')}}" class="btn btn-primary" role="button"> Generate Spoticloud </a>
+                    <a href="{{url_for('wordcloud.wordCloud')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Random Spoticloud </a>
                 </div>
                 <div class="d-flex justify-content-md-center col-md-6">
-                    <a href="{{url_for('wordcloud.form')}}" class="btn btn-info" role="button"> Generate Custom Spoticloud </a>
+                    <a href="{{url_for('wordcloud.form')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Custom Spoticloud </a>
                 </div>
             </div>
             {% if image_url|length > 0 %}

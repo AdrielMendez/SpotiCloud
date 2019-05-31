@@ -172,4 +172,16 @@ body #userImg {
           transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
 }
+
+#cloudPreview {
+  width: auto;
+  height: auto;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.gen-btn {
+  border-radius: 50px !important;
+  background-color: #1DD760;
+}
 /*# sourceMappingURL=styles.css.map */
