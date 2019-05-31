@@ -20,7 +20,7 @@ def home():
     gallery_imgs = get_gallery_imgs()
 
     if 'access_token' in session:
-        if 'new_cloud' in session:
+        if 'new_cloud' in session and len(img_paths) > 0:
             session.pop('new_cloud')
             return render_template(template, name=page_name, domain=domain, image_url=img_paths[-1], gallery_imgs=gallery_imgs)
         else:
