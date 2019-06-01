@@ -6,3 +6,4 @@ wtforms
 wordcloud
 bs4
 matplotlib
+celery

@@ -1,32 +1,13 @@
 from flask import (Blueprint, redirect, render_template, request, 
-                    url_for, session, flash, jsonify, g, current_app)
-from .auth import getplaylist
+                    url_for, session, flash, jsonify, g, current_app, copy_current_request_context, jsonify)
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 from .src.SpotifyCloud import SpotifyCloud
 import spotipy
 import sys
 import os
-from threading import Thread
+
 
 bp = Blueprint('wordcloud', __name__)
-
-
-# def after_this_request(func):
-#     if not hasattr(g, 'call_after_request'):
-#         g.call_after_request = []
-#     g.call_after_request.append(func)
-#     return func
-
-
-# @bp.after_request
-# def per_request_callbacks(response):
-#     for func in getattr(g, 'call_after_request', ()):
-#         response = func(response)
-#     return response
-
-# @after_this_request
-# def run_wordCloud(data=None):
-#     createWordCloud(data)
 
 
 @bp.route('/')
@@ -37,6 +18,7 @@ def home():
     page_name = "SpotiCloud"
     img_paths = get_clouds()
     gallery_imgs = get_gallery_imgs()
+
 
     if 'access_token' in session:
         if 'new_cloud' in session and len(img_paths) > 0:
@@ -49,8 +31,10 @@ def home():
         return render_template(template, name=page_name, domain=domain, gallery_imgs=gallery_imgs)
 
 
-@bp.route('/wordCloud')
+
+@bp.route('/wordCloud', methods=['GET', 'POST'])
 def wordCloud():
+    from word_cloud.tasks.tasks import run_createWordCloud
     """connection to WordCloud class is done here"""
     template = "home.html"
     domain = "SpotiCloud"
@@ -58,9 +42,8 @@ def wordCloud():
     if 'access_token' not in session:
         return redirect(url_for('wordcloud.home'))
     else:
-        # thread = Thread(target=createWordCloud)
-        # thread.start()
-        createWordCloud()
+        info = get_form_data()
+        run_createWordCloud.delay(info)
         session['new_cloud'] = 'in session'
         return redirect(url_for('wordcloud.home'))
     # return render_template(template, name=page_name, domain=domain)
@@ -129,7 +112,14 @@ def get_gallery_imgs():
             imgs.append(filename)
     return imgs
 
-def createWordCloud(data=None):
+def get_form_data():
+    result = {}
+    result['data'] = session['form_data']
+    result['access_token'] = session['access_token']
+    return result
+    
+
+def run_word_cloud(session):
     print('Fetching wordCloud')
     token = ''
     sc = SpotifyCloud(number_songs=20)
