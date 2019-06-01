@@ -49,8 +49,8 @@ body #userImg {
   transition-property: all;
   -webkit-transform: scale(1.06);
           transform: scale(1.06);
-  -webkit-transition: all 33ms cubic-bezier(0.3, 0, 0, 1);
-  transition: all 33ms cubic-bezier(0.3, 0, 0, 1);
+  -webkit-transition: all 120ms cubic-bezier(0.6, 0.61, 0.06, 0.07);
+  transition: all 120ms cubic-bezier(0.6, 0.61, 0.06, 0.07);
 }
 
 .spotifyButton:active {
@@ -166,7 +166,6 @@ body #userImg {
   position: absolute;
   top: 50%;
   left: 50%;
-  font-size: 50px;
   color: white;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
@@ -180,8 +179,9 @@ body #userImg {
   max-height: 90vh;
 }
 
-.gen-btn {
-  border-radius: 50px !important;
-  background-color: #1DD760;
+.overlay-btn {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
 }
 /*# sourceMappingURL=styles.css.map */

@@ -1,13 +1,32 @@
-from flask import Blueprint, redirect, render_template, request, url_for, session, flash, jsonify
+from flask import (Blueprint, redirect, render_template, request, 
+                    url_for, session, flash, jsonify, g, current_app)
 from .auth import getplaylist
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 from .src.SpotifyCloud import SpotifyCloud
 import spotipy
 import sys
 import os
+from threading import Thread
 
 bp = Blueprint('wordcloud', __name__)
 
+
+# def after_this_request(func):
+#     if not hasattr(g, 'call_after_request'):
+#         g.call_after_request = []
+#     g.call_after_request.append(func)
+#     return func
+
+
+# @bp.after_request
+# def per_request_callbacks(response):
+#     for func in getattr(g, 'call_after_request', ()):
+#         response = func(response)
+#     return response
+
+# @after_this_request
+# def run_wordCloud(data=None):
+#     createWordCloud(data)
 
 
 @bp.route('/')
@@ -39,7 +58,8 @@ def wordCloud():
     if 'access_token' not in session:
         return redirect(url_for('wordcloud.home'))
     else:
-        # scheduler job followed by redirect
+        # thread = Thread(target=createWordCloud)
+        # thread.start()
         createWordCloud()
         session['new_cloud'] = 'in session'
         return redirect(url_for('wordcloud.home'))
@@ -110,6 +130,7 @@ def get_gallery_imgs():
     return imgs
 
 def createWordCloud(data=None):
+    print('Fetching wordCloud')
     token = ''
     sc = SpotifyCloud(number_songs=20)
 

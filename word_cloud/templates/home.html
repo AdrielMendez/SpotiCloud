@@ -37,8 +37,11 @@
             </div>
             {% if image_url|length > 0 %}
                 <div id="overlay" onclick="off()">
+                        <div>
                         <div id="cloudImg">
                             <img id="cloudPreview"class="img-fluid" src="{{ url_for('static', filename='uploads/' + image_url ) }}">
+                        </div>
+                        <a class="spotifyButton overlay-btn" id="spotifyHover" role="button" href="{{url_for('wordcloud.clouds')}}">Go to your Cloud gallery</a>
                         </div>
                 </div>
             {% endif %}

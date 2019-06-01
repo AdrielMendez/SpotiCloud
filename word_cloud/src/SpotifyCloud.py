@@ -147,6 +147,13 @@ class SpotifyCloud():
         final = [i for (i, n) in zip(lyrics, unwanted) if n is False]
         return ' '.join(final)
 
+    def lyrics_word_count(lyrics):
+        word_count = 0
+        for i in lyrics:
+            word_count += len(i.split(' '))
+        return word_count
+            
+
     def generateRandomAttributes(self):
         parameters = {}
         parameters['time_range'] = attributes["time_range"][random.randint(0,2)]

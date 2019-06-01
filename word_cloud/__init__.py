@@ -29,5 +29,8 @@ def create_app(test_config=None):
 
     from . import wordcloud
     app.register_blueprint(wordcloud.bp)
-
+    
+    ctx = app.app_context()
+    ctx.push()
+    
     return app
