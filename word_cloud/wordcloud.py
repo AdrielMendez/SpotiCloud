@@ -45,7 +45,7 @@ def wordCloud():
         info = get_form_data()
         run_createWordCloud.delay(info)
         session['new_cloud'] = 'in session'
-        return redirect(url_for('wordcloud.home'))
+        return redirect(url_for('wordcloud.home')) # check previous location, redirect there.
     # return render_template(template, name=page_name, domain=domain)
 
 
@@ -114,8 +114,10 @@ def get_gallery_imgs():
 
 def get_form_data():
     result = {}
-    result['data'] = session['form_data']
-    result['access_token'] = session['access_token']
+    if 'form_data' in session:
+        result['data'] = session['form_data']
+    if 'access_token' in session:
+        result['access_token'] = session['access_token']
     return result
     
 

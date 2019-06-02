@@ -5,7 +5,8 @@ $bgcolors: (
     4: #1DD760,
     5: #191414,
     6: #ffffff,
-    7: #282828
+    7: #282828,
+    8: #fffd70
 );
 
 
@@ -194,26 +195,23 @@ background-color: map-get($map: $bgcolors, $key: 7) !important;
     align-self: center;
 }
 
+h3 {
+    color: map-get($map: $bgcolors, $key: 4) !important;
+}
 
+.GeniusWord {
+    color: map-get($map: $bgcolors, $key: 8) !important; 
+}
+.SpotifyWord {
+    color: map-get($map: $bgcolors, $key: 4) !important;
+}
 
-// .gen-btn {
-//     border-radius: 50px !important;
-//     background-color: map-get($map: $bgcolors, $key: 4);
-//     border-color: darken(map-get($map: $bgcolors, $key: 4),);
-//     color: black !important;
-//     padding: .5rem 1rem !important;
-//     font-size: 1.25rem !important;
-//     line-height: 1.5 !important;
-// }
-// .gen-btn:hover {
-//     background: #3ae475 !important;
-//     transition-property: all;
-//     transform: scale(1.06);
-//     transition: all 33ms cubic-bezier(.3,0,0,1);
-// }
-// .gen-btn:active{
-//     background: darken(#1DD760, 20%) !important;
-//     transition-property: all;
-//     transform: scale(.98);
-//     transition: all 33ms cubic-bezier(.3,0,0,1);
-// }
+#alinks {
+    color: map-get($map: $bgcolors, $key: 6);
+    text-decoration: none;
+}
+
+#alinks:hover {
+    color: darken(map-get($map: $bgcolors, $key: 4), 20%);
+    text-decoration: none;
+}

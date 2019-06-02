@@ -184,4 +184,26 @@ body #userImg {
       -ms-grid-row-align: center;
       align-self: center;
 }
+
+h3 {
+  color: #1DD760 !important;
+}
+
+.GeniusWord {
+  color: #fffd70 !important;
+}
+
+.SpotifyWord {
+  color: #1DD760 !important;
+}
+
+#alinks {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+#alinks:hover {
+  color: #117d38;
+  text-decoration: none;
+}
 /*# sourceMappingURL=styles.css.map */

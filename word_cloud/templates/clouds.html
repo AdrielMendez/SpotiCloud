@@ -8,12 +8,15 @@
 
     {%- block main -%}
         {% if image_urls|length > 0 %}
-            <h3 class="h3">Your {{ name }}</h3>
-            <!-- {% for image_url in image_urls %}
-                <div class="cloudImage">
-                    <img class="img-fluid" src="{{ url_for('static', filename='uploads/' + image_url ) }}">
+            <div class="row mt-4 pt-4">
+                <div class="d-flex justify-content-md-center col-md-6">
+                    <a href="{{url_for('wordcloud.wordCloud')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Random </a>
                 </div>
-            {% endfor %} -->
+                <div class="d-flex justify-content-md-center col-md-6">
+                    <a href="{{url_for('wordcloud.form')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Custom </a>
+                </div>
+            </div>
+            <h3 class="h3 pt-5 pb-2">Your {{ name }}</h3>
             <div class="gallery" id="gallery">
                 {% for image_url in image_urls %}
                     <div class="mb-3 pics animation all 1">
@@ -21,15 +24,17 @@
                     </div>
                 {% endfor %}
             </div>
-            <a role="button" class="btn btn-success" href="{{url_for('wordcloud.form')}}">Make a custom one!</a>
         {% else %}
-            <h3 class="h3">Your, mmmm..</h3>
-            <p>hmm, looks like you haven't made any clouds yet.. whatcha waiting for!?</p>
-            {% if 'access_token' in session %}
-            <a role="button" class="btn btn-success" href="{{url_for('wordcloud.wordCloud')}}">Make a Word Cloud!</a>
-            {% else %}
-            <a role="button" class="btn btn-success" href="{{url_for('auth.login')}}">login to Spotify</a>
-            {% endif %}
+            <h3 class="h3">Uh Oh, Que Paso??</h3>
+            <p>hmm, it looks like you haven't made any clouds yet..!?</p>
+            <div class="row mt-4 pt-4">
+                <div class="d-flex justify-content-md-center col-md-6">
+                    <a href="{{url_for('wordcloud.wordCloud')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Random </a>
+                </div>
+                <div class="d-flex justify-content-md-center col-md-6">
+                    <a href="{{url_for('wordcloud.form')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Custom </a>
+                </div>
+            </div>
         {% endif %}
     {%- endblock main -%}
 {% endblock content %}

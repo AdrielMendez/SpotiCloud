@@ -1,4 +1,7 @@
 venv/
+env/
+
+uploads/
 
 *.pyc
 __pycache__/
@@ -7,3 +10,6 @@ __pycache__/
 
 conf.json
 config.py
+
+Artists.txt
+Lyrics.txt

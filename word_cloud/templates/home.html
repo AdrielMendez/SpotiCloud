@@ -25,14 +25,14 @@
             <h2 class="h2 mt-3"> Welcome to SpotiCloud</h2>
             <div class="ml-2">
                 <h6 class="h6"> SpotiCloud is a project made to create Word Cloud art based off of a users Spotify Data.</h6>
-                <a href="{{ url_for('wordcloud.about') }}"> Want to learn more? </a>
+                <a href="{{ url_for('wordcloud.about') }}" style="text-decoration: none" > Want to learn more? </a>
             </div>
             <div class="row mt-4 pt-4">
                 <div class="d-flex justify-content-md-center col-md-6">
-                    <a href="{{url_for('wordcloud.wordCloud')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Random Spoticloud </a>
+                    <a href="{{url_for('wordcloud.wordCloud')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Random </a>
                 </div>
                 <div class="d-flex justify-content-md-center col-md-6">
-                    <a href="{{url_for('wordcloud.form')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Custom Spoticloud </a>
+                    <a href="{{url_for('wordcloud.form')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Custom </a>
                 </div>
             </div>
             {% if image_url|length > 0 %}
