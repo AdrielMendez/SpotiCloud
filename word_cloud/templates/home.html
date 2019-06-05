@@ -9,7 +9,7 @@
     {%- block main -%}
         {% if 'access_token' not in session %}
             <div>
-                <H1>{{name}}</H1>
+                <H1>{{page_name}}</H1>
                 <h2 class="h2"> Welcome to SpotiCloud</h2>
                 <h4> SpotiCloud is a project made to create Word Cloud art based off of a users Spotify Data.</h4>
                 <h2 class="h2">login to see your personal Word Cloud</h2>
@@ -19,8 +19,10 @@
                 </a>
             </div>
         {% else %}
+
+
             <h2 class="h2"> Hello, 
-            <img src="{{session['user_data']['images'][0]['url']}}" id="userImg"></img>
+            <img src="{{session['user_data']['images'][0]['url']}}" id="userImg">
             {{session['user_data']['display_name']}}! </h2>
             <h2 class="h2 mt-3"> Welcome to SpotiCloud</h2>
             <div class="ml-2">
@@ -39,9 +41,11 @@
                 <div id="overlay" onclick="off()">
                         <div>
                         <div id="cloudImg">
-                            <img id="cloudPreview"class="img-fluid" src="{{ url_for('static', filename='uploads/' + image_url ) }}">
+                            <a href="{{url_for('wordcloud.clouds')}}">
+                                <img id="cloudPreview" class="img-fluid" src="{{ url_for('static', filename='uploads/' + image_url ) }}">
+                            </a>
                         </div>
-                        <a class="spotifyButton overlay-btn" id="spotifyHover" role="button" href="{{url_for('wordcloud.clouds')}}">Go to your Cloud gallery</a>
+                        {#<a class="spotifyButton overlay-btn" id="spotifyHover" role="button" href="{{url_for('wordcloud.clouds')}}">Go to your Cloud gallery</a>#}
                         </div>
                 </div>
             {% endif %}

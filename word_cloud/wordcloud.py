@@ -1,34 +1,42 @@
 from flask import (Blueprint, redirect, render_template, request, 
-                    url_for, session, flash, jsonify, g, current_app, copy_current_request_context, jsonify)
+                    url_for, session, flash, jsonify, g, current_app,)
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 from .src.SpotifyCloud import SpotifyCloud
+from celery.result import AsyncResult
+from word_cloud import celery_app
 import spotipy
 import sys
 import os
 
 
-bp = Blueprint('wordcloud', __name__)
 
+bp = Blueprint('wordcloud', __name__)
+task_id = 0
+
+""" 
+            ##############
+            # \/routes\/ #
+            ##############
+"""
 
 @bp.route('/')
 @bp.route('/home')
 def home():
+    from word_cloud.tasks.tasks import run_createWordCloud
     template = "home.html"
     domain = "SpotiCloud"
-    page_name = "SpotiCloud"
+    name = "SpotiCloud"
     img_paths = get_clouds()
     gallery_imgs = get_gallery_imgs()
-
-
     if 'access_token' in session:
         if 'new_cloud' in session and len(img_paths) > 0:
             session.pop('new_cloud')
-            return render_template(template, name=page_name, domain=domain, image_url=img_paths[-1], gallery_imgs=gallery_imgs)
+            return render_template(template, image_url=img_paths[-1], gallery_imgs=gallery_imgs)
         else:
-            return render_template(template, name=page_name, domain=domain, gallery_imgs=gallery_imgs)
+            return render_template(template, gallery_imgs=gallery_imgs)
     else:
         page_name = "Home"
-        return render_template(template, name=page_name, domain=domain, gallery_imgs=gallery_imgs)
+        return render_template(template, gallery_imgs=gallery_imgs)
 
 
 
@@ -42,11 +50,16 @@ def wordCloud():
     if 'access_token' not in session:
         return redirect(url_for('wordcloud.home'))
     else:
-        info = get_form_data()
-        run_createWordCloud.delay(info)
+        global task_id
+        task_id += 1  
+        referrer = request.referrer
+        info = get_form_data(referrer)
+        result = run_createWordCloud.apply_async((info,), task_id='wc{}'.format(task_id))
         session['new_cloud'] = 'in session'
-        return redirect(url_for('wordcloud.home')) # check previous location, redirect there.
-    # return render_template(template, name=page_name, domain=domain)
+        session['task_id'] = task_id
+        return_url = request.referrer
+        return redirect(return_url) 
+    
 
 
 @bp.route('/about/')
@@ -94,12 +107,21 @@ def form():
         return render_template('form.html', form=form, name=page_name, domain=domain)
 
 
+""" 
+            ###############
+            # \/Methods\/ #
+            ###############
+"""
+
+
+# @bp.context_processor
 def get_clouds():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     dir_path += '/static/uploads'
     imgs = []
     for filename in os.listdir(dir_path):
-        imgs.append(filename)
+        if filename.lower().endswith('.png'):
+            imgs.append(filename)
     imgs.sort()
     return imgs
 
@@ -112,14 +134,27 @@ def get_gallery_imgs():
             imgs.append(filename)
     return imgs
 
-def get_form_data():
+
+def get_form_data(referrer):
+    from .auth import is_token_expired, renew_access_token
     result = {}
-    if 'form_data' in session:
-        result['data'] = session['form_data']
-    if 'access_token' in session:
-        result['access_token'] = session['access_token']
-    return result
-    
+    if str(referrer).startswith('http://127.0.0.1/callback/q'):
+        result['return_url'] = 'http://127.0.0.1/clouds'
+    else:
+        result['return_url'] = referrer
+    if is_token_expired:
+        renew_access_token()
+        if 'form_data' in session:
+            result['data'] = session['form_data']
+        if 'access_token' in session:
+            result['access_token'] = session['access_token']
+        return result
+    else:
+        if 'form_data' in session:
+            result['data'] = session['form_data']
+        if 'access_token' in session:
+            result['access_token'] = session['access_token']
+        return result
 
 def run_word_cloud(session):
     print('Fetching wordCloud')
@@ -192,6 +227,9 @@ def run_word_cloud(session):
                 artist_file.write(' '.join(temp_list))
             sc.createWordCloud("Artists.txt")
     
+    print('word Cloud Function finished')
     if 'form_data' in session:
         session.pop('form_data')
 
+    return_url = session['return_url']
+    return return_url

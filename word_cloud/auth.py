@@ -1,11 +1,10 @@
 from urllib.parse import quote
 import requests
 import json
-
-
-
+import time
+from spotipy.oauth2 import SpotifyOAuth
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app, Response
 )
 
 
@@ -33,6 +32,7 @@ STATE = ""
 SHOW_DIALOG_bool = True
 SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
 
+sp_oauth = SpotifyOAuth(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, state=None, scope=SCOPE)
 
 auth_query_parameters = {
     "response_type": "code",
@@ -46,7 +46,6 @@ auth_query_parameters = {
 
 @bp.route("/login")
 def login():
-    # Auth Step 1: Authorization
     template = 'layout.html'
     name = "login page"
     url_args = "&".join(["{}={}".format(key, quote(val)) for key, val in auth_query_parameters.items()])
@@ -83,7 +82,7 @@ def callback():
         access_token = response_data["access_token"]
         refresh_token = response_data["refresh_token"]
         token_type = response_data["token_type"]
-        expires_in = response_data["expires_in"]
+        expires_at = int(time.time()) + response_data["expires_in"]
 
 
         # Auth Step 6: Use the access token to access Spotify API
@@ -97,11 +96,42 @@ def callback():
         session['auth_header'] = auth_header
         session['access_token'] = access_token
         session['refresh_token'] = refresh_token
+        session['expires_at'] = expires_at
         session['user_data'] = profile_data
         user_data = session['user_data']
         session['username'] = user_data['display_name']
 
     return home()
+
+
+def renew_access_token():
+    if 'refresh_token' in session:
+        refresh_token = session['refresh_token']
+        token_info = sp_oauth.refresh_access_token(refresh_token=refresh_token)
+        session['access_token'] = token_info['access_token']
+        session['expires_at'] =  int(time.time()) + token_info['expires_in']
+        if not 'refresh_token' in token_info:
+                session['refresh_token'] = refresh_token
+        else:
+            session['refresh_token'] = token_info['refresh_token']
+        
+    else:
+        return login()
+    
+
+def is_token_expired():
+    if 'expires_at' in session:
+        now = int(time.time())
+        return session['expires_at'] - now < 60
+    else:
+        return True
+
+
+
+@bp.errorhandler(401)
+def custom_401(error):
+    return login()
+    # return Response('<Why access is denied string goes here...>', 401, {'WWW-Authenticate':'Basic realm="Login Required"'})
 
 
 
