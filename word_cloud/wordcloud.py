@@ -11,7 +11,6 @@ import os
 from time import sleep
 
 
-
 bp = Blueprint('wordcloud', __name__)
 task_id = 0
 
@@ -30,24 +29,16 @@ def home():
     name = "SpotiCloud"
     img_path = get_clouds()
     gallery_imgs = get_gallery_imgs()
-    # task_data = async_return()
-    # print(task_data,"**************************************")
     if 'access_token' in session:
         if 'task_complete' in session:
             session.pop('task_complete')
             session.pop('task_id')
-            # task_data = async_return()
-            # referrer = task_data['referrer']
-            # img_path = task_data['new_cloud']
-            
             return render_template(template, image_url=img_path, gallery_imgs=gallery_imgs, img_path=img_path)
         else:
             return render_template(template, gallery_imgs=gallery_imgs, img_path=img_path)
     else:
         page_name = "Home"
         return render_template(template, gallery_imgs=gallery_imgs, img_path=img_path)
-
-# if 'new_cloud' in session and len(img_paths) > 0: (line 32)
 
 
 @bp.route('/wordCloud', methods=['GET', 'POST'])
@@ -75,7 +66,6 @@ def wordCloud():
         return render_template(return_name) 
     
 
-
 @bp.route('/about/')
 def about():
     template = "about.html"
@@ -102,6 +92,7 @@ def clouds():
 def form():
     domain = "SpotiCloud"
     page_name = "Customize your Cloud"
+    return_name = request.referrer.split('/')[-1] + '.html'
 
     if 'access_token' not in session:
         return redirect(url_for('auth.login'))
@@ -120,16 +111,11 @@ def form():
                 data['height'] = request.form.get('height')
                 data['width'] = request.form.get('width')
             session['form_data'] = dict(data)
-            return redirect(url_for('wordcloud.wordCloud'))
-
+            print('inside form()******')
+            return render_template(return_name)
+        print('+~+~+~+~++~+~ didn\'t post~+~++~+~+~+~+~+')
         return render_template('form.html', form=form, name=page_name, domain=domain)
 
-
-""" 
-            ###############
-            # \/Methods\/ #
-            ###############
-"""
 
 @bp.route('/cloud_task/', methods=['GET', 'POST'])
 def cloud_task():
@@ -138,6 +124,9 @@ def cloud_task():
     task_id += 1  
     referrer = request.referrer
     info = get_form_data(referrer)
+    # data = info['data']
+    data = session['form_data']
+    print('inside cloud_task()+++++')
     result = run_createWordCloud.apply_async((info,), task_id='wc{}'.format(task_id))
     session['new_cloud'] = 'in session'
     session['task_id'] = result.task_id
@@ -146,35 +135,15 @@ def cloud_task():
     referrer_html = result.result
     all_clouds = get_clouds()
     new_cloud = str(all_clouds[-1])
-    payload = { 'data': render_template('trial.html', new_cloud=new_cloud)}
+    payload = { 'data': render_template('overlay.html', new_cloud=new_cloud)}
     return jsonify(payload)
-    
-    # task_id = session['task_id']
-    # result = AsyncResult(str(task_id), app=celery_app,)
-    # if result.ready():
-    #         session['task_complete'] = True
-    #         referrer_html = result.result
-    #         all_clouds = get_clouds()
-    #         new_cloud = str(all_clouds[-1])
-    #         payload = { 'data': render_template('trial.html', new_cloud=new_cloud)}
-    #         return jsonify(payload)
-    # return jsonify({'data': 'ran before completion.'})
 
 
-    # 
-    # t_list = 'this is a senstence in the overlay'
-    # return jsonify({'data': render_template('trial.html', t_list=t_list)})
-    # if 'task_id' in session and 'task_complete' not in session:
-    #     task_id = session['task_id']
-    #     result = AsyncResult(str(task_id), app=celery_app,)
-    #     if result.ready():
-    #         session['task_complete'] = True
-    #         referrer_html = result.result
-    #         all_clouds = get_clouds()
-    #         new_cloud = str(all_clouds[-1])
-    #         payload = { 'data': render_template('trial.html', new_cloud=new_cloud)}
-    #         return jsonify(payload)
-
+""" 
+            ###############
+            # \/Methods\/ #
+            ###############
+"""  
 
 def get_clouds():
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -199,10 +168,8 @@ def get_gallery_imgs():
 def get_form_data(referrer):
     from .auth import is_token_expired, renew_access_token
     result = {}
-    if str(referrer).startswith('http://127.0.0.1/callback/q?code'):
-        result['return_url'] = 'http://127.0.0.1/clouds'
-    else:
-        result['return_url'] = referrer.split('/')[-1] + ".html"
+    return_name = referrer.split('/')[-1] + ".html"
+    result['return_name'] = return_name
     if is_token_expired:
         renew_access_token()
         if 'form_data' in session:
@@ -217,13 +184,15 @@ def get_form_data(referrer):
             result['access_token'] = session['access_token']
         return result
 
+
 def run_word_cloud(session):
     print('Fetching wordCloud')
     token = ''
     sc = SpotifyCloud(number_songs=20)
 
     if 'form_data' in session and 'access_token' in session:
-        data = session['form_data']
+        info = session['form_data']
+        data = info['data']
         print(data, file=sys.stderr)
         cloud_type = True if data['cloud_type'] == 'lyric' else False
         if data['viewport'] != 'custom':
@@ -239,7 +208,8 @@ def run_word_cloud(session):
             time_range=data['time_range'], number_songs=data['number_songs'], lyric=data['lyric'])
         token = session['access_token']
     else:
-        return redirect(url_for('auth.login'))
+        return "not working right now sorry"
+        # return redirect(url_for('auth.login'))
     
     if token:
 
@@ -292,5 +262,5 @@ def run_word_cloud(session):
     if 'form_data' in session:
         session.pop('form_data')
 
-    return_url = session['return_url']
-    return return_url
+    # return_name =  info['return_name']
+    # return return_name

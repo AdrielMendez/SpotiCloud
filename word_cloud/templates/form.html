@@ -7,9 +7,11 @@
     {% endblock header %}
     
     {%- block main -%}
+        {% block overlay %}
+            {{super()}}
+        {% endblock overlay%}
         <h3 class="h3">{{ name }}</h3>
-        <script src="{{ url_for('static', filename='js/form.js') }}"></script>
-        <form action="{{url_for('wordcloud.form')}}" method="post" role="form" class="ml-2 mt-3 mb-5 pl-4 pb-5 ">
+        <form action="{{url_for('wordcloud.form')}}" method="POST" role="form" class="ml-2 mt-3 mb-5 pl-4 pb-5 ">
             <label for="theme">Theme</label>
             <p>
                 <input type="radio" name="theme" id="incolour" value="incolour" required> Jamie XX - In Colour <br>
@@ -51,7 +53,7 @@
                 <input type="radio" name="time_range" id="medium_term" value="medium_term"> 6 Months <br>
                 <input type="radio" name="time_range" id="long_term" value="long_term"> All Time<br>
             </p>
-            <button type="submit" class="btn btn-success">Generate</button>
+            <button type="submit" class="btn btn-success" id="genBtn">Generate</button>
         </form>
     {%- endblock main -%}
 {% endblock content %}
