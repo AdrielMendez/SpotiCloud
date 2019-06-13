@@ -1,4 +1,10 @@
 {% extends "layout.html" %}
+{% block metas %}
+    {# <meta id="image_url" data-name="{{image_url}}" >  #}  
+    <meta id="image_url" data-name="{{image_url}}" >   
+    <meta id="task_result" data-name="{{task_data}}">
+    <meta id="image_src" data-name="{{ url_for('static', filename='uploads/' ) }}" >
+{% endblock metas%}
 {% block title %} {{name}} {% endblock %}
 
 {%block content%}
@@ -19,8 +25,11 @@
                 </a>
             </div>
         {% else %}
+       <button id="genBtn">Click Me</button>
+        <div id="trial"></div> 
 
-
+        <div id="overlay" onclick="off()"></div>
+            
             <h2 class="h2"> Hello, 
             <img src="{{session['user_data']['images'][0]['url']}}" id="userImg">
             {{session['user_data']['display_name']}}! </h2>
@@ -30,25 +39,16 @@
                 <a href="{{ url_for('wordcloud.about') }}" style="text-decoration: none" > Want to learn more? </a>
             </div>
             <div class="row mt-4 pt-4">
+    
                 <div class="d-flex justify-content-md-center col-md-6">
-                    <a href="{{url_for('wordcloud.wordCloud')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Random </a>
+                    <a href="{{url_for('wordcloud.wordCloud')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button" id='genBtn'> Generate Random </a>
                 </div>
                 <div class="d-flex justify-content-md-center col-md-6">
-                    <a href="{{url_for('wordcloud.form')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button"> Generate Custom </a>
+                    <a href="{{url_for('wordcloud.form')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button" > Generate Custom </a>
                 </div>
             </div>
-            {% if image_url|length > 0 %}
-                <div id="overlay" onclick="off()">
-                        <div>
-                        <div id="cloudImg">
-                            <a href="{{url_for('wordcloud.clouds')}}">
-                                <img id="cloudPreview" class="img-fluid" src="{{ url_for('static', filename='uploads/' + image_url ) }}">
-                            </a>
-                        </div>
-                        {#<a class="spotifyButton overlay-btn" id="spotifyHover" role="button" href="{{url_for('wordcloud.clouds')}}">Go to your Cloud gallery</a>#}
-                        </div>
-                </div>
-            {% endif %}
+
+            
         {% endif %}
         <br><br>
             <h2>User Submitted Examples</h2>
@@ -60,19 +60,58 @@
                     </div>
                 {% endfor %}
             </div>
+            <!-- <div style="display: none"><img src="{{ url_for('static', filename='uploads/' + '2019-06-03_14:45:13.png') }}" ></div> -->
     {%- endblock main -%}
 {% endblock content %}
 
 {% block scripts %}
-    {{super()}}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
     <script>
-        $(document).ready(
-        function () {
-            document.getElementById("overlay").style.display = "block";
-        })
+        $('#genBtn').click(function(){
+            console.log('button clicked')
+          $.ajax({
+              url: "/cloud_task/",
+              type: "POST",
+              success: function(resp){
+                console.log(resp.data);
+                document.getElementById("overlay").style.display = "block";
+                $('#overlay').append(resp.data);
+              }
+          });
+        });
         
         function off() {
             document.getElementById("overlay").style.display = "none";
         }
     </script>
+
+    <!-- <script type="text/javascript">
+        console.log("inside initial script tag")
+    $(document).ready(function() {
+        $('a#genBtn').click(function() {
+            console.log("inside click event function");
+            $.ajax({
+                url: "/cloud_task/",
+                type: "POST",
+                async: "false",
+                success: function(resp) {
+                    console.log('the cloud_task function returned successfully.');
+                    $('div#overlay').append(resp.data);
+                    $('document').getElementById('overlay').innerHTML = 'add this';
+                },
+                error: function(jqxhr, status, exception) {
+                    alert('Exception:', exception);
+                }
+            });
+        });
+    });
+
+    function off() {
+        document.getElementById("overlay").style.display = "none";
+            }
+
+    </script> -->
+
 {% endblock scripts %}

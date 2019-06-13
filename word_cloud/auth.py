@@ -65,6 +65,8 @@ def logout():
 def callback():
     from .wordcloud import home
     # Auth Step 4: Requests refresh and access tokens
+    if 'task_id' in session:
+        session.pop('task_id')
     auth_token = request.args['code']
     code_payload = {
         "grant_type": "authorization_code",
@@ -101,7 +103,7 @@ def callback():
         user_data = session['user_data']
         session['username'] = user_data['display_name']
 
-    return home()
+    return redirect(url_for("wordcloud.home"))
 
 
 def renew_access_token():

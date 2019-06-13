@@ -1,4 +1,8 @@
 {% extends "bootstrap/base.html" %}
+{%- block metas %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ {# <meta http-equiv="refresh" content="5"> #}
+{%- endblock metas %}
 {%- block styles %}
     <!-- <link href="https://fonts.googleapis.com/css?family=Noto+Sans:700&display=swap" rel="stylesheet">  -->
     <link href="{{url_for('static', filename='css/styles.css')}}" rel="stylesheet">
@@ -19,8 +23,8 @@
         {% else %}
             <nav class="navbar ml-auto flex-column pt-5">
                 <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.home') }}">Home</a>
-                <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.about') }}">About</a>
                 <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.clouds') }}">Clouds</a>
+                <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('wordcloud.about') }}">About</a>
                 <a class="nav-item nav-link pt-0 pb-0" href="{{ url_for('auth.logout') }}">Logout</a>
             </nav>
         {% endif %}
@@ -30,7 +34,8 @@
     {% block main %}{% endblock main %}
 
     {% block scripts %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
         <script src="{{bootstrap_find_resource('jquery.js', cdn='jquery')}}"></script>
         <script src="{{bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap')}}"></script>
     {%- endblock scripts %}

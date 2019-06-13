@@ -4,9 +4,11 @@ from wtforms import Form, TextField, TextAreaField, validators, StringField, Sub
 from .src.SpotifyCloud import SpotifyCloud
 from celery.result import AsyncResult
 from word_cloud import celery_app
+import requests
 import spotipy
 import sys
 import os
+from time import sleep
 
 
 
@@ -26,18 +28,26 @@ def home():
     template = "home.html"
     domain = "SpotiCloud"
     name = "SpotiCloud"
-    img_paths = get_clouds()
+    img_path = get_clouds()
     gallery_imgs = get_gallery_imgs()
+    # task_data = async_return()
+    # print(task_data,"**************************************")
     if 'access_token' in session:
-        if 'new_cloud' in session and len(img_paths) > 0:
-            session.pop('new_cloud')
-            return render_template(template, image_url=img_paths[-1], gallery_imgs=gallery_imgs)
+        if 'task_complete' in session:
+            session.pop('task_complete')
+            session.pop('task_id')
+            # task_data = async_return()
+            # referrer = task_data['referrer']
+            # img_path = task_data['new_cloud']
+            
+            return render_template(template, image_url=img_path, gallery_imgs=gallery_imgs, img_path=img_path)
         else:
-            return render_template(template, gallery_imgs=gallery_imgs)
+            return render_template(template, gallery_imgs=gallery_imgs, img_path=img_path)
     else:
         page_name = "Home"
-        return render_template(template, gallery_imgs=gallery_imgs)
+        return render_template(template, gallery_imgs=gallery_imgs, img_path=img_path)
 
+# if 'new_cloud' in session and len(img_paths) > 0: (line 32)
 
 
 @bp.route('/wordCloud', methods=['GET', 'POST'])
@@ -47,6 +57,7 @@ def wordCloud():
     template = "home.html"
     domain = "SpotiCloud"
     page_name = "WordCloud Creation"
+
     if 'access_token' not in session:
         return redirect(url_for('wordcloud.home'))
     else:
@@ -56,9 +67,12 @@ def wordCloud():
         info = get_form_data(referrer)
         result = run_createWordCloud.apply_async((info,), task_id='wc{}'.format(task_id))
         session['new_cloud'] = 'in session'
-        session['task_id'] = task_id
-        return_url = request.referrer
-        return redirect(return_url) 
+        session['task_id'] = result.task_id
+    
+        return_name = request.referrer.split('/')[-1] + '.html'
+        if return_name == 'wordCloud.html':
+            return_name = 'home.html'
+        return render_template(return_name) 
     
 
 
@@ -75,6 +89,7 @@ def clouds():
     template="clouds.html"
     domain = "SpotiCloud"
     page_name = "Generated Clouds" 
+
     if 'access_token' not in session:
         return redirect(url_for('auth.login'))
     else: 
@@ -87,9 +102,11 @@ def clouds():
 def form():
     domain = "SpotiCloud"
     page_name = "Customize your Cloud"
+
     if 'access_token' not in session:
         return redirect(url_for('auth.login'))
     else:
+
         if request.method == 'POST':
             data = {}
             data['theme'] = request.form.get('theme') 
@@ -98,6 +115,7 @@ def form():
             data['viewport'] = request.form.get('viewport')
             data['number_songs'] = request.form.get('number_songs')
             data['time_range'] = request.form.get('time_range')
+
             if data['viewport'] == 'custom':
                 data['height'] = request.form.get('height')
                 data['width'] = request.form.get('width')
@@ -113,8 +131,51 @@ def form():
             ###############
 """
 
+@bp.route('/cloud_task/', methods=['GET', 'POST'])
+def cloud_task():
+    from word_cloud.tasks.tasks import run_createWordCloud
+    global task_id
+    task_id += 1  
+    referrer = request.referrer
+    info = get_form_data(referrer)
+    result = run_createWordCloud.apply_async((info,), task_id='wc{}'.format(task_id))
+    session['new_cloud'] = 'in session'
+    session['task_id'] = result.task_id
+    while not result.ready():
+        sleep(1)
+    referrer_html = result.result
+    all_clouds = get_clouds()
+    new_cloud = str(all_clouds[-1])
+    payload = { 'data': render_template('trial.html', new_cloud=new_cloud)}
+    return jsonify(payload)
+    
+    # task_id = session['task_id']
+    # result = AsyncResult(str(task_id), app=celery_app,)
+    # if result.ready():
+    #         session['task_complete'] = True
+    #         referrer_html = result.result
+    #         all_clouds = get_clouds()
+    #         new_cloud = str(all_clouds[-1])
+    #         payload = { 'data': render_template('trial.html', new_cloud=new_cloud)}
+    #         return jsonify(payload)
+    # return jsonify({'data': 'ran before completion.'})
 
-# @bp.context_processor
+
+    # 
+    # t_list = 'this is a senstence in the overlay'
+    # return jsonify({'data': render_template('trial.html', t_list=t_list)})
+    # if 'task_id' in session and 'task_complete' not in session:
+    #     task_id = session['task_id']
+    #     result = AsyncResult(str(task_id), app=celery_app,)
+    #     if result.ready():
+    #         session['task_complete'] = True
+    #         referrer_html = result.result
+    #         all_clouds = get_clouds()
+    #         new_cloud = str(all_clouds[-1])
+    #         payload = { 'data': render_template('trial.html', new_cloud=new_cloud)}
+    #         return jsonify(payload)
+
+
 def get_clouds():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     dir_path += '/static/uploads'
@@ -138,10 +199,10 @@ def get_gallery_imgs():
 def get_form_data(referrer):
     from .auth import is_token_expired, renew_access_token
     result = {}
-    if str(referrer).startswith('http://127.0.0.1/callback/q'):
+    if str(referrer).startswith('http://127.0.0.1/callback/q?code'):
         result['return_url'] = 'http://127.0.0.1/clouds'
     else:
-        result['return_url'] = referrer
+        result['return_url'] = referrer.split('/')[-1] + ".html"
     if is_token_expired:
         renew_access_token()
         if 'form_data' in session:
