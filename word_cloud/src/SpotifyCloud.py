@@ -22,6 +22,7 @@ from .colormap import colormap, attributes
 import string
 import datetime
 from flask import Flask, session, request, current_app
+from pprint import pprint
 
 
 
@@ -82,9 +83,20 @@ class SpotifyCloud():
     def request_song_info(self, song_title, artist_name):
         search_url = geniusconfig['BASE_URL'] + '/search'
         headers = {'Authorization': 'Bearer ' + geniusconfig['GENIUS_SECRET']}
-        data = {'q': song_title + ' ' + artist_name}
+        data = {'q': song_title + ' ' + artist_name, 'page': '1', 'per_page': '1'}
         response = requests.get(search_url, data=data, headers=headers)
-        return response
+        resp_json = response.json()
+        # print(resp_json)
+        resp_list = []
+        resp = {}
+        print(len(resp_json['response']['hits']))
+        if resp_json['response']['hits']:
+            resp['title'] = resp_json['response']['hits'][0]['result']['title']
+            resp['url'] = resp_json['response']['hits'][0]['result']['url']
+            resp['artist_name'] = resp_json['response']['hits'][0]['result']['primary_artist']['name']
+            resp_list.append(resp)
+        print(resp)
+        return resp
 
     def grey_color_func(self, word, font_size, position, orientation, random_state=None, **kwargs):
         return "hsl(0, 0%%, %d%%)" % random.randint(60, 100)

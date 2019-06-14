@@ -9,6 +9,7 @@ import spotipy
 import sys
 import os
 from time import sleep
+from pprint import pprint
 
 
 bp = Blueprint('wordcloud', __name__)
@@ -124,8 +125,6 @@ def cloud_task():
     task_id += 1  
     referrer = request.referrer
     info = get_form_data(referrer)
-    # data = info['data']
-    data = session['form_data']
     print('inside cloud_task()+++++')
     result = run_createWordCloud.apply_async((info,), task_id='wc{}'.format(task_id))
     session['new_cloud'] = 'in session'
@@ -173,26 +172,26 @@ def get_form_data(referrer):
     if is_token_expired:
         renew_access_token()
         if 'form_data' in session:
-            result['data'] = session['form_data']
+            result['form_data'] = session['form_data']
         if 'access_token' in session:
             result['access_token'] = session['access_token']
         return result
     else:
         if 'form_data' in session:
-            result['data'] = session['form_data']
+            result['form_data'] = session['form_data']
         if 'access_token' in session:
             result['access_token'] = session['access_token']
         return result
 
 
-def run_word_cloud(session):
+def run_word_cloud(task_data):
     print('Fetching wordCloud')
     token = ''
     sc = SpotifyCloud(number_songs=20)
 
-    if 'form_data' in session and 'access_token' in session:
-        info = session['form_data']
-        data = info['data']
+    if 'form_data' in task_data and 'access_token' in task_data:
+        print("inside the custom form if-statement")
+        data = task_data['form_data']
         print(data, file=sys.stderr)
         cloud_type = True if data['cloud_type'] == 'lyric' else False
         if data['viewport'] != 'custom':
@@ -201,16 +200,17 @@ def run_word_cloud(session):
         else:
             sc = SpotifyCloud(theme=data['theme'], viewport=data['viewport'], lyric=cloud_type, background_color=data['background'],
                 time_range=data['time_range'], number_songs=data['number_songs'], height=int(data['height']), width=int(data['width']))
-        token = session['access_token']
-    elif 'access_token' in session:
+        token = task_data['access_token']
+    elif 'access_token' in task_data:
+        print('inside the randomly generated word cloud if statement +!+!+!+!')
         data = sc.generateRandomAttributes()
         sc = SpotifyCloud(theme=data['theme'], viewport=data['viewport'], background_color=data['background'],
             time_range=data['time_range'], number_songs=data['number_songs'], lyric=data['lyric'])
-        token = session['access_token']
+        token = task_data['access_token']
     else:
         return "not working right now sorry"
         # return redirect(url_for('auth.login'))
-    
+    total = 0
     if token:
 
         sp = spotipy.Spotify(auth=token)
@@ -225,20 +225,15 @@ def run_word_cloud(session):
             artist_name = t['album']['artists'][0]['name']
             track_name = t['name']
             
-            response = sc.request_song_info(track_name, artist_name)
-            json = response.json()
-            remote_song_info = None
 
-            # Check to see if Genius can find a song with matching artist name and track name.
-            for hit in json['response']['hits']: 
-                if artist_name.lower() in hit['result']['primary_artist']['name'].lower():
-                    remote_song_info = hit
-                    break
-            
+            remote_song_info = sc.request_song_info(track_name, artist_name)
+
+            total += 1
+
             if sc.lyric:
                 # if song info found, collect data.
                 if remote_song_info:
-                        song_url = remote_song_info['result']['url']
+                        song_url = remote_song_info['url']
                         lyrics = sc.scrap_song_url(song_url)
                         all_lyrics.append(lyrics)
             else:
@@ -259,8 +254,9 @@ def run_word_cloud(session):
             sc.createWordCloud("Artists.txt")
     
     print('word Cloud Function finished')
-    if 'form_data' in session:
-        session.pop('form_data')
+    if 'form_data' in task_data:
+        task_data.pop('form_data')
 
     # return_name =  info['return_name']
     # return return_name
+    print(str(total) + '+!+!+!+@+@+@+!+!')
