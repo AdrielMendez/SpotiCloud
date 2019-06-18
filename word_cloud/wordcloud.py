@@ -113,7 +113,7 @@ def form():
                 data['width'] = request.form.get('width')
             session['form_data'] = dict(data)
             print('inside form()******')
-            return render_template(return_name)
+            return jsonify({'form_data': render_template('form.html', form=form)})
         print('+~+~+~+~++~+~ didn\'t post~+~++~+~+~+~+~+')
         return render_template('form.html', form=form, name=page_name, domain=domain)
 
@@ -135,6 +135,8 @@ def cloud_task():
     all_clouds = get_clouds()
     new_cloud = str(all_clouds[-1])
     payload = { 'data': render_template('overlay.html', new_cloud=new_cloud)}
+    if 'form_data' in session:
+        session.pop('form_data')
     return jsonify(payload)
 
 
@@ -254,9 +256,7 @@ def run_word_cloud(task_data):
             sc.createWordCloud("Artists.txt")
     
     print('word Cloud Function finished')
-    if 'form_data' in task_data:
-        task_data.pop('form_data')
+    
 
     # return_name =  info['return_name']
     # return return_name
-    print(str(total) + '+!+!+!+@+@+@+!+!')

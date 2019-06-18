@@ -31,17 +31,23 @@
     {%- endblock navbar %}
     </div> {# end banner row div #}
 
+    {% block formOverlay %}
+        <div id="displayForm" onclick="off()"></div>
+    {% endblock formOverlay%}
+    
     {% block main %}
         {% block overlay %}
             <div id="overlay" onclick="off()"></div>
         {% endblock overlay%}
+
+
         {% block cloudBtns %}
             <div class="row mt-4 pt-4">
                 <div class="d-flex justify-content-md-center col-md-6"> 
                     <button  style="color:black" class="spotifyButton" id="genBtn"> Generate Random </button>
                 </div>
                 <div class="d-flex justify-content-md-center col-md-6">
-                    <a href="{{url_for('wordcloud.form')}}" style="color:black" class="spotifyButton" id="spotifyHover" role="button" > Generate Custom </a>
+                    <button style="color:black" class="spotifyButton" id="formOverlay"> Generate Custom </button>{#href="{{url_for('wordcloud.form')}}" #}
                 </div>
             </div> 
         {% endblock cloudBtns %}
@@ -52,8 +58,10 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="{{bootstrap_find_resource('jquery.js', cdn='jquery')}}"></script>
         <script src="{{bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap')}}"></script>
+        <script src="{{ url_for('static', filename='js/formOverlay.js') }}"></script>
         <script src="{{ url_for('static', filename='js/form.js') }}"></script>
         <script src="{{ url_for('static', filename='js/overlay.js') }}"></script>
+        
     {%- endblock scripts %}
 </div>{# end of conainer div #}
 {% endblock body %}

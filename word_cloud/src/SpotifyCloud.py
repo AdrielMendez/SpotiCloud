@@ -89,13 +89,11 @@ class SpotifyCloud():
         # print(resp_json)
         resp_list = []
         resp = {}
-        print(len(resp_json['response']['hits']))
         if resp_json['response']['hits']:
             resp['title'] = resp_json['response']['hits'][0]['result']['title']
             resp['url'] = resp_json['response']['hits'][0]['result']['url']
             resp['artist_name'] = resp_json['response']['hits'][0]['result']['primary_artist']['name']
             resp_list.append(resp)
-        print(resp)
         return resp
 
     def grey_color_func(self, word, font_size, position, orientation, random_state=None, **kwargs):
