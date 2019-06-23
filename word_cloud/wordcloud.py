@@ -87,9 +87,10 @@ def clouds():
         img_paths = get_clouds()
         img_paths.reverse()
         return render_template(template, name=page_name, domain=domain, image_urls=img_paths)
+    
 
 
-@bp.route("/form", methods=['GET', 'POST'])
+@bp.route("/form", methods=[ 'GET','POST'])
 def form():
     domain = "SpotiCloud"
     page_name = "Customize your Cloud"
@@ -113,7 +114,7 @@ def form():
                 data['width'] = request.form.get('width')
             session['form_data'] = dict(data)
             print('inside form()******')
-            return jsonify({'form_data': render_template('form.html', form=form)})
+            return jsonify({'form_data': render_template('form.html'), 'payload': data})
         print('+~+~+~+~++~+~ didn\'t post~+~++~+~+~+~+~+')
         return render_template('form.html', form=form, name=page_name, domain=domain)
 

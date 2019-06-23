@@ -173,27 +173,11 @@ background-color: map-get($map: $bgcolors, $key: 7) !important;
     background-color: rgba(0,0,0,0.5);
     z-index: 2;
     cursor: pointer;
-    font-size: 200%;
-    color: white;
+    // font-size: 200%;
+    // color: white;
 }
 
-#foverlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    display: none;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 2;
-    cursor: pointer;
-    font-size: 200%;
-    color: white;
-}
-
-// #formDisplay {
+// #formoverlay {
 //     position: fixed;
 //     width: 100%;
 //     height: 100%;
@@ -205,9 +189,50 @@ background-color: map-get($map: $bgcolors, $key: 7) !important;
 //     background-color: rgba(0,0,0,0.5);
 //     z-index: 2;
 //     cursor: pointer;
-//     font-size: 200%;
-//     color: white;
+//     // font-size: 200%;
+//     // color: white;
 // }
+
+#displayFormOverlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.68);
+    z-index: 2;
+    padding: 10%;
+    // cursor: pointer;
+}
+
+// #formDisplay {
+//     position: fixed;
+//     width: 100%;
+//     height: 100%;
+//     display: none;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     background-color: rgba(0,0,0,0.68) !important;
+//     z-index: 2;
+//     padding: 10%;
+    
+//     // font-size: 10%;
+//     // color: white;
+// }
+
+#form_frame {
+    margin: 0%;
+    // padding: 10%;
+    position: relative;
+    cursor: pointer;
+    z-index: 3;
+
+}
 
 #cloudImg{
     position: absolute;

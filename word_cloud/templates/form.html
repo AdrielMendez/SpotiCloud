@@ -1,50 +1,78 @@
 
 <!-- <h3 class="h3">{{ name }}</h3> -->
-<div id="foverlay">
-    <div id="cloudImg">
-        <form id="cloudPreview" action="{{url_for('wordcloud.form')}}" method="POST" role="form" class="ml-2 mt-3 mb-5 pl-4 pb-5 ">
-            <label for="theme">Theme</label>
-            <p>
-                <input type="radio" name="theme" id="incolour" value="incolour" required> Jamie XX - In Colour <br>
-                <input type="radio" name="theme" id="kay" value="kay"> Kaytranada - 99.9%<br>
-                <input type="radio" name="theme" id="ds2" value="ds2"> Future - DS2<br>
-                <input type="radio" name="theme" id="kod" value="kod"> J Cole - KOD<br>
-            </p>
-            <label for="background">Background Color</label>
-            <p>
-                <input type="radio" name="background" id="black" value="black" required> Black <br>
-                <input type="radio" name="background" id="white" value="white"> White <br>
-                <input type="radio" name="background" id="random" value="random"> Random<br>
-            </p>
-            <label for="cloudtype">Type of Cloud</label>
-            <p>
-                <input type="radio" name="type" id="lyric" value="lyric"required> Lyric Cloud <br>
-                <input type="radio" name="type" id="artist" value="artist"> Artist cloud <br>
-            </p>
-            <label for="viewport">Dimension</label>
-            <p>
-                <input type="radio" name="viewport" id="desktop" value="desktop" required onclick="customDimension(this);"> Desktop (1920 x 1080) <br>
-                <input type="radio" name="viewport" id="mobile" value="mobile"onclick="customDimension(this);"> Mobile (720 x 1280) <br>
-                <input type="radio" name="viewport" id="custom" value="custom" onclick="customDimension(this);"> Custom<br>
-                <div id="customDimensions" style="display: none;">
-                    <label for="height"> Height (in pixels) </label> <input type="number" name="height" min="1" max="2000" /><br> 
-                    <label for="width"> Width (in pixels) </label> <input type="number" name="width" min="1" max="2000">
+<div style="display: block"> <!--id="overlay"-->
+     <div id="form_frame" onclick="event.stopPropagation()"> <!--id="cloudImg" -->
+        <form action="{{url_for('wordcloud.cloud_task')}}" method="GET" role="form" class="ml-2 mt-3 mb-5 pl-4 pb-5 "> id="cloudPreview"
+            <div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-around">
+                    <div>
+                        <label for="theme">Theme</label>
+                        <p>
+                            <input type="radio" name="theme" id="incolour" value="incolour" required> Jamie XX - In Colour <br>
+                            <input type="radio" name="theme" id="kay" value="kay"> Kaytranada - 99.9%<br>
+                            <input type="radio" name="theme" id="ds2" value="ds2"> Future - DS2<br>
+                            <input type="radio" name="theme" id="kod" value="kod"> J Cole - KOD<br>
+                        </p>
+                    </div>
+                    <div>
+                        <label for="background">Background Color</label>
+                        <p>
+                            <input type="radio" name="background" id="black" value="black" required> Black <br>
+                            <input type="radio" name="background" id="white" value="white"> White <br>
+                            <input type="radio" name="background" id="random" value="random"> Random<br>
+                        </p>
+                    </div>
+                    <div>
+                    <label for="cloudtype">Type of Cloud</label>
+                    <p>
+                        <input type="radio" name="type" id="lyric" value="lyric"required> Lyric Cloud <br>
+                        <input type="radio" name="type" id="artist" value="artist"> Artist cloud <br>
+                    </p>
+                    </div>
+                    </div>
                 </div>
-                
-            </p>
-            <label for="number_songs">Number of Songs</label>
-            <p>
-                <input type="radio" name="number_songs" id="10" value="10" required> 10 <br>
-                <input type="radio" name="number_songs" id="25" value="25"> 25 <br>
-                <input type="radio" name="number_songs" id="50" value="50"> 50<br>
-            </p>
-            <label for="time_range">Time Range</label>
-            <p>
-                <input type="radio" name="time_range" id="short_term" value="short_term" required> 1 Month <br>
-                <input type="radio" name="time_range" id="medium_term" value="medium_term"> 6 Months <br>
-                <input type="radio" name="time_range" id="long_term" value="long_term"> All Time<br>
-            </p>
-            <button type="submit" class="btn btn-success" id="genBtn">Generate</button>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-around">
+                        <div>
+                        <label for="viewport">Dimension</label>
+                        <p>
+                            <input type="radio" name="viewport" id="desktop" value="desktop" required onclick="customDimension(this);"> Desktop (1920 x 1080) <br>
+                            <input type="radio" name="viewport" id="mobile" value="mobile"onclick="customDimension(this);"> Mobile (720 x 1280) <br>
+                            <input type="radio" name="viewport" id="custom" value="custom" onclick="customDimension(this);"> Custom<br>
+                            <div id="customDimensions" style="display: none;">
+                                <label for="height"> Height (in pixels) </label> <input type="number" name="height" min="1" max="2000" /><br> 
+                                <label for="width"> Width (in pixels) </label> <input type="number" name="width" min="1" max="2000">
+                            </div>
+                        </p>
+                        </div>
+                        <div>
+                        <label for="number_songs">Number of Songs</label>
+                        <p>
+                            <input type="radio" name="number_songs" id="10" value="10" required> 10 <br>
+                            <input type="radio" name="number_songs" id="25" value="25"> 25 <br>
+                            <input type="radio" name="number_songs" id="50" value="50"> 50<br>
+                        </p>
+                        </div>
+                        <div>
+                        <label for="time_range">Time Range</label>
+                        <p>
+                            <input type="radio" name="time_range" id="short_term" value="short_term" required> 1 Month <br>
+                            <input type="radio" name="time_range" id="medium_term" value="medium_term"> 6 Months <br>
+                            <input type="radio" name="time_range" id="long_term" value="long_term"> All Time<br>
+                        </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-around">
+            <button class="spotifyButton" id="custBtn" style="justify-self: center; color:black;">Generate</button><!--btn btn-success-->
+            <!-- type="submit"  -->
+            </div>
+            </div>
         </form>
     </div>
 </div>

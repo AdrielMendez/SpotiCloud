@@ -1,5 +1,5 @@
 function customDimension(that) {
-    console.log(that.value)
+    // console.log(that.value)
     if (that.value == "custom") {
         document.getElementById("customDimensions").style.display = "block";
     } else {
